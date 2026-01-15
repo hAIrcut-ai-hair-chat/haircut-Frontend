@@ -2,7 +2,6 @@ const fs = require('fs');
 const os = require('os');
 const networkInterfaces = os.networkInterfaces();
 
-// Função para obter o IP do computador
 function getIPAddress() {
     for (const interfaceName in networkInterfaces) {
         const interfaces = networkInterfaces[interfaceName];
@@ -15,7 +14,6 @@ function getIPAddress() {
     return null;
 }
 
-// Função para atualizar o arquivo .env com o novo IP
 function updateEnvFile(ip) {
     try {
         let envData = fs.readFileSync('.env', 'utf8').toString().split('\n');
@@ -35,10 +33,7 @@ function updateEnvFile(ip) {
     } catch (error) {
         console.error(`Erro ao atualizar o arquivo .env: ${error.message}`);
     }
-}
-
-// Função principal
-function main() {
+}function main() {
     const ip = getIPAddress();
     if (ip) {
         updateEnvFile(ip);
