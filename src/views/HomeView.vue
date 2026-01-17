@@ -79,6 +79,7 @@ onMounted(() => {
             
             <div class="input-actions">
               <button class="action-btn upload-btn" title="Upload de imagem">
+                <i class="mdi mdi-image-plus"></i>
                 <span class="btn-label">Upload</span>
               </button>
               

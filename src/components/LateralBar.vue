@@ -80,12 +80,12 @@ const setActiveButton = (buttonName) => {
   left: 0;
   height: 100vh;
   width: 80px;
-  background: linear-gradient(180deg, #1f2937 0%, #111827 100%);
+  background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   padding: 20px 0;
-  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.25);
   transition: all 0.3s ease;
   z-index: 1000;
   overflow: hidden;
@@ -108,24 +108,27 @@ const setActiveButton = (buttonName) => {
   padding: 0 20px 20px;
   margin-bottom: 24px;
   cursor: pointer;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .haircut-symbol i {
   font-size: 20px;
-  color: #ebf8ff;
+  color: #ffffff;
   padding: 12px;
+  background: linear-gradient(235deg, #ffffff 0%, #0f4fbe 100%);
   border-radius: 12px;
   min-width: 24px;
   text-align: center;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
 
 .symbol-text {
-  color: #ffffff;
+  color: #f1f5f9;
   font-size: 1.15rem;
-  font-weight: 600;
+  font-weight: 700;
   opacity: 0;
   transition: opacity 0.2s ease;
+  letter-spacing: 0.5px;
 }
 
 .lateral-bar.expanded .symbol-text {
@@ -144,40 +147,50 @@ const setActiveButton = (buttonName) => {
   align-items: center;
   gap: 14px;
   padding: 12px 14px;
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.05);
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  color: #e5e7eb;
+  color: #cbd5e1;
   cursor: pointer;
   transition: all 0.25s ease;
   position: relative;
 }
 
 .button:hover {
-  background: rgba(49, 130, 206, 0.15);
+  background: rgba(59, 130, 246, 0.15);
+  color: #ffffff;
+  border-color: rgba(59, 130, 246, 0.3);
   transform: translateX(4px);
 }
 
 .button.active {
-  background: #ffffff;
-  color: #1f2937;
-  border-color: #e2e8f0;
+  background: rgba(59, 130, 246, 0.2);
+  color: #ffffff;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.3);
 }
 
 .button i {
   font-size: 20px;
   min-width: 24px;
   text-align: center;
+  color: #94a3b8;
+  transition: color 0.25s ease;
+}
+
+.button:hover i {
+  color: #ffffff;
 }
 
 .button.active i {
-  color: #3182ce;
+  color: #60a5fa;
 }
 
 .button-text {
   font-size: 0.95rem;
   white-space: nowrap;
   opacity: 0;
+  font-weight: 500;
 }
 
 .lateral-bar.expanded .button-text {
@@ -186,10 +199,24 @@ const setActiveButton = (buttonName) => {
 
 .bottom-section {
   padding: 18px 14px 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   flex-direction: column;
   gap: 12px;
+}
+
+.button.settings {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.button.settings:hover {
+  background: rgba(139, 92, 246, 0.15);
+  border-color: rgba(139, 92, 246, 0.3);
+}
+
+.button.settings.active {
+  background: rgba(139, 92, 246, 0.2);
+  border-color: #8b5cf6;
 }
 
 .expand-collapse {
@@ -198,22 +225,31 @@ const setActiveButton = (buttonName) => {
   gap: 14px;
   padding: 12px;
   border-radius: 12px;
-  color: #e5e7eb;
+  color: #94a3b8;
   cursor: pointer;
   transition: all 0.25s ease;
+  background: rgba(255, 255, 255, 0.03);
 }
 
 .expand-collapse:hover {
   background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
 }
 
 .expand-collapse i {
   font-size: 20px;
+  transition: transform 0.3s ease;
 }
 
 .lateral-bar.expanded .expand-collapse i {
   transform: rotate(180deg);
 }
 
+.expand-collapse .button-text {
+  color: #94a3b8;
+}
 
+.expand-collapse:hover .button-text {
+  color: #ffffff;
+}
 </style>
