@@ -108,8 +108,8 @@ onMounted(() => {
 }
 
 .sidebar {
-  background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
-  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
+  background: #f8fafc;
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.12);
 }
 
 .main-content {
@@ -132,18 +132,20 @@ onMounted(() => {
 }
 
 .profile-icon {
-  width: 84px;
-  height: 84px;
-  border-radius: 50%;
-  background: #3182ce;
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .profile-icon i {
-  font-size: 50px;
-  color: white;
+  font-size: 30px;
+  color: #3182ce;
+}
+.profile-icon i {
+  cursor: pointer;
 }
 
 .welcome-title {
