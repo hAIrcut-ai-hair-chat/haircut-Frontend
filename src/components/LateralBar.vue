@@ -109,15 +109,15 @@ const setActiveButton = (buttonName) => {
   margin-bottom: 24px;
   cursor: pointer;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  
 }
 
 .haircut-symbol i {
   font-size: 20px;
   color: #ffffff;
   padding: 12px;
-  background: linear-gradient(235deg, #ffffff 0%, #0f4fbe 100%);
+  background: linear-gradient(235deg, #ffffff 0%, #0f4fbe 10  0%);
   border-radius: 12px;
-  min-width: 24px;
   text-align: center;
   box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
