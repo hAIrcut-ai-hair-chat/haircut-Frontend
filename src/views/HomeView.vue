@@ -73,7 +73,7 @@ onMounted(() => {
             <input 
               type="text" 
               class="photo-input" 
-              placeholder="Descreve como você deseja seu corte de cabelo"
+              placeholder="Descreva como você deseja seu corte de cabelo"
               @keyup.enter="sendPhotos"
             />
             
