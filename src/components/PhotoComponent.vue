@@ -4,10 +4,6 @@
 <template>
   <div class="upload-section">
     <div class="input-container">
-      <div class="input-header">
-        <i class="mdi mdi-image-area"></i>
-        <h2>Envie suas fotos</h2>
-      </div>
 
       <div class="input-wrapper">
         <input
@@ -29,11 +25,6 @@
           </button>
         </div>
       </div>
-
-      <div class="input-hint">
-        <i class="mdi mdi-information"></i>
-        <p>Formatos suportados: JPG, PNG, WEBP. Tamanho máximo: 10MB</p>
-      </div>
     </div>
   </div>
 </template>
@@ -52,11 +43,7 @@
 .input-container {
   width: 100%;
   max-width: 700px;
-  background: white;
-  border-radius: 16px;
-  padding: 2rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-  border: 1px solid #e2e8f0;
+  margin-top: 200px;
 }
 
 .input-header {
@@ -82,26 +69,31 @@
 
 .input-wrapper {
   position: relative;
-  margin-bottom: 1rem;
+  margin-bottom: 1rem;  
 }
 
 .photo-input {
   width: 100%;
-  height: 60px;
+  height: 70px;
   padding: 0 180px 0 1.5rem;
   font-size: 1rem;
-  border: 2px solid #e2e8f0;
   border-radius: 12px;
-  background: #f8fafc;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   color: #2d3748;
-  transition: all 0.3s ease;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+
+  transition: all 0.25s ease;
 }
 
 .photo-input:focus {
   outline: none;
   border-color: #3182ce;
   background: white;
-  box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
 }
 
 .photo-input::placeholder {

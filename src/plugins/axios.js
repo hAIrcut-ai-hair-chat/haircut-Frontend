@@ -1,12 +1,17 @@
 import axios from 'axios';
 
-// Configura a baseURL usando a variável de ambiente
-axios.defaults.baseURL = import.meta.env.VITE_BASE_URL || 'http://localhost:19003/api'
+const api = axios.create({
+  baseURL: import.meta.env.VITE_BASE_URL,
+  timeout: 10000,
+  headers: {
+    "Content-Type": "application/json",
+    Accept: "application/json"
+  },
+})
 
-// axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('psg_auth_token')}`
 
-// Adiciona um interceptor para incluir o token de autenticação
-axios.interceptors.request.use(
+
+api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('psg_auth_token');
     if (token) {
@@ -19,4 +24,4 @@ axios.interceptors.request.use(
   }
 );
 
-export default axios;
+export default api;

@@ -191,12 +191,14 @@ onMounted(() => {
 
 .brand-name {
   font-weight: 700;
-  color: #3182ce;
   background: linear-gradient(135deg, #3182ce 0%, #63b3ed 100%);
-  -webkit-background-clip: text;
+  
+  background-clip: text;          /* padrão */
+  -webkit-background-clip: text;  /* chrome/safari */
+
+  color: transparent;          
   -webkit-text-fill-color: transparent;
 }
-
 @media (max-width: 1024px) {
   .chat-interface {
     grid-template-columns: 200px 1fr;
