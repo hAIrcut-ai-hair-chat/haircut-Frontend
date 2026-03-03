@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import LoginView from "../views/LoginView.vue";
 import LogoutView from "../views/LogoutView.vue";
-;
+import FeedView from '../views/FeedView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -21,6 +21,11 @@ const router = createRouter({
       path: "/logout",
       name: "logout",
       component: LogoutView,
+    },
+    {
+      path: "/feed",
+      name: "feed",
+      component: FeedView
     }
   ],
 });
