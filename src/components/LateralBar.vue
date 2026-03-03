@@ -51,15 +51,13 @@ const setActiveButton = (buttonName) => {
           <i class="mdi mdi-chat"></i>
           <span v-if="isExpanded" class="button-text">Chats recentes</span>
         </button>
-
-        <!-- Novo botão de Feed -->
         <button 
           class="button" 
           :class="{ 'active': activeButton === 'feed' }"
           @click="setActiveButton('feed')"
           :title="isExpanded ? 'Feed de inspirações' : ''"
         >
-          <i class="mdi mdi-rss"></i>
+          <i class="mdi mdi-image-multiple"></i>
           <span v-if="isExpanded" class="button-text">Feed</span>
         </button>
       </div>
@@ -124,9 +122,8 @@ const setActiveButton = (buttonName) => {
 
 .haircut-symbol i {
   font-size: 20px;
-  color: #3b82f6;
+  color: white;
   padding: 12px;
-  background: rgb(239, 239, 239);
   border-radius: 12px;
   text-align: center;
 }
