@@ -76,7 +76,8 @@ onMounted(() => {
   display: grid;
   grid-template-columns: 200px 1fr;
   min-height: 100vh;
-  background-color: #ffffff;
+  background-color: #cbd5e1;
+
 }
 
 .sidebar {
