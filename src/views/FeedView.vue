@@ -203,8 +203,6 @@ defineExpose({ addNewPost })
         </div>
       </div>
     </main>
-
-    <!-- Barra lateral -->
     <LateralBar />
   </div>
 </template>
