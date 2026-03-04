@@ -66,10 +66,69 @@ const posts = ref([
     likes: 19,
     comments: [],
     liked: false
+  },
+  {
+    id: 7,
+    username: 'joaosilva',
+    userAvatar: 'https://i.pravatar.cc/40?u=1',
+    image: 'https://picsum.photos/600/400?random=7',
+    caption: 'Mais um estilo! 💈',
+    likes: 21,
+    comments: [],
+    liked: false
+  },
+  {
+    id: 8,
+    username: 'anabeatriz',
+    userAvatar: 'https://i.pravatar.cc/40?u=2',
+    image: 'https://picsum.photos/600/400?random=8',
+    caption: 'Cores vibrantes 🎨',
+    likes: 34,
+    comments: [],
+    liked: false
+  },
+  {
+    id: 9,
+    username: 'carlos_oli',
+    userAvatar: 'https://i.pravatar.cc/40?u=3',
+    image: 'https://picsum.photos/600/400?random=9',
+    caption: 'Navalhado ✨',
+    likes: 18,
+    comments: [],
+    liked: false
+  },
+  {
+    id: 10,
+    username: 'maria123',
+    userAvatar: 'https://i.pravatar.cc/40?u=4',
+    image: 'https://picsum.photos/600/400?random=10',
+    caption: 'Finalização perfeita',
+    likes: 27,
+    comments: [],
+    liked: false
+  },
+  {
+    id: 11,
+    username: 'lucas_fer',
+    userAvatar: 'https://i.pravatar.cc/40?u=5',
+    image: 'https://picsum.photos/600/400?random=11',
+    caption: 'Estilo militar 🪖',
+    likes: 15,
+    comments: [],
+    liked: false
+  },
+  {
+    id: 12,
+    username: 'julia_m',
+    userAvatar: 'https://i.pravatar.cc/40?u=6',
+    image: 'https://picsum.photos/600/400?random=12',
+    caption: 'Tranças novas!',
+    likes: 42,
+    comments: [],
+    liked: false
   }
 ])
 
-// Função para adicionar novo post
 const addNewPost = (postData) => {
   const newPost = {
     id: Date.now(),
@@ -81,6 +140,7 @@ const addNewPost = (postData) => {
     comments: [],
     liked: false
   }
+  
   posts.value.unshift(newPost)
 }
 
@@ -144,7 +204,7 @@ defineExpose({ addNewPost })
       </div>
     </main>
 
-    <!-- Barra lateral fixa -->
+    <!-- Barra lateral -->
     <LateralBar />
   </div>
 </template>
@@ -153,10 +213,10 @@ defineExpose({ addNewPost })
 .explore-layout {
   display: flex;
   min-height: 100vh;
+  width: 100%;
   position: relative;
 }
 
-/* Conteúdo principal */
 .main-content {
   flex: 1;
   max-width: 1200px;
@@ -165,12 +225,11 @@ defineExpose({ addNewPost })
   transition: margin-right 0.3s ease;
 }
 
-/* Ajuste quando a sidebar está expandida */
-:deep(.lateral-bar.expanded) + .main-content {
-  margin-right: 250px; /* Largura da sidebar expandida */
+/* Ajuste para quando a sidebar expandir */
+:deep(.lateral-bar.expanded) ~ .main-content {
+  margin-right: 280px; /* Ajuste conforme a largura da sua sidebar */
 }
 
-/* Estado vazio */
 .empty-explore {
   text-align: center;
   color: #666;
@@ -181,15 +240,13 @@ defineExpose({ addNewPost })
   margin: 2rem 0;
 }
 
-.empty-explore p {
-  margin: 0;
-}
 .explore-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
   margin-bottom: 2rem;
 }
+
 .grid-item {
   position: relative;
   border-radius: 12px;
@@ -206,16 +263,13 @@ defineExpose({ addNewPost })
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* Imagem */
 .grid-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: filter 0.3s ease;
 }
 
-/* Placeholder para posts sem imagem */
 .no-image-placeholder {
   width: 100%;
   height: 100%;
@@ -233,7 +287,6 @@ defineExpose({ addNewPost })
   border-radius: 4px;
 }
 
-/* Overlay */
 .item-overlay {
   position: absolute;
   top: 0;
@@ -255,7 +308,6 @@ defineExpose({ addNewPost })
   opacity: 1;
 }
 
-/* Conteúdo do overlay */
 .overlay-content {
   display: flex;
   flex-direction: column;
@@ -270,7 +322,6 @@ defineExpose({ addNewPost })
   font-size: 1rem;
 }
 
-/* Botão de like */
 .likes {
   display: flex;
   align-items: center;
@@ -305,13 +356,6 @@ defineExpose({ addNewPost })
   transition: transform 0.2s ease;
 }
 
-/* Media queries */
-@media (max-width: 1024px) {
-  .main-content {
-    max-width: calc(100% - 80px); /* Considerando sidebar colapsada */
-  }
-}
-
 @media (max-width: 768px) {
   .explore-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -319,12 +363,7 @@ defineExpose({ addNewPost })
   }
   
   .main-content {
-    max-width: 100%;
     margin-right: 0 !important;
-  }
-  
-  :deep(.lateral-bar.expanded) + .main-content {
-    margin-right: 0; 
   }
 }
 
@@ -336,11 +375,6 @@ defineExpose({ addNewPost })
   .explore-grid {
     grid-template-columns: 1fr;
     gap: 0.8rem;
-  }
-
-  .empty-explore {
-    margin: 1rem 0;
-    padding: 2rem 1rem;
   }
 }
 </style>
