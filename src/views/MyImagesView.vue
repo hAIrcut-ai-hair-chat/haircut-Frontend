@@ -20,15 +20,16 @@ import LateralBar from '@/components/LateralBar.vue'
   display: grid;
   grid-template-columns: 1fr 2fr;
   height: 100vh;
-  text-align: center;
-}
+  align-items: center;
+    justify-items: center;
+  }
 
 .image-section {
   padding: 20px;
 }
 
 .my-images {
-  background-color: ;
+  background-color: blue;
   color: white;
   padding: 10px 15px;
   display: inline-block;
