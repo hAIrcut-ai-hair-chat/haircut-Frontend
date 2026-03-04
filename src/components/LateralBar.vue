@@ -1,88 +1,94 @@
 <script setup>
 import { ref } from 'vue'
+import { useRoute } from 'vue-router'
 
 const isExpanded = ref(false)
-const activeButton = ref('chat')
+const route = useRoute()
 
 const toggleExpanded = () => {
   isExpanded.value = !isExpanded.value
 }
-
-const setActiveButton = (buttonName) => {
-  activeButton.value = buttonName
-}
 </script>
 
 <template>
-  <div class="lateral-bar" :class="{ 'expanded': isExpanded }">
+  <div class="lateral-bar" :class="{ expanded: isExpanded }">
     <div class="top-section">
+      
       <div class="haircut-symbol" @click="toggleExpanded">
         <i class="mdi mdi-hair-dryer"></i>
         <span v-if="isExpanded" class="symbol-text">HaircutAI</span>
       </div>
-      
+
       <div class="buttons">
-        <button 
-          class="button" 
-          :class="{ 'active': activeButton === 'new-chat' }"
-          @click="setActiveButton('new-chat')"
-          :title="isExpanded ? 'Novo chat' : ''"
+
+        <router-link 
+          to="/new-chat"
+          class="button"
+          :class="{ active: route.path === '/new-chat' }"
         >
           <i class="mdi mdi-message-plus"></i>
           <span v-if="isExpanded" class="button-text">Novo chat</span>
-        </button>
-        
-        <button 
-          class="button" 
-          :class="{ 'active': activeButton === 'images' }"
-          @click="setActiveButton('images')"
-          :title="isExpanded ? 'Suas imagens' : ''"
+        </router-link>
+
+        <router-link 
+          to="/images"
+          class="button"
+          :class="{ active: route.path === '/images' }"
         >
           <i class="mdi mdi-image-outline"></i>
           <span v-if="isExpanded" class="button-text">Suas imagens</span>
-        </button>
-        
-        <button 
-          class="button" 
-          :class="{ 'active': activeButton === 'chat' }"
-          @click="setActiveButton('chat')"
-          :title="isExpanded ? 'Chats recentes' : ''"
+        </router-link>
+
+        <router-link 
+          to="/chat"
+          class="button"
+          :class="{ active: route.path === '/chat' }"
         >
           <i class="mdi mdi-chat"></i>
           <span v-if="isExpanded" class="button-text">Chats recentes</span>
-        </button>
-        <button 
-          class="button" 
-          :class="{ 'active': activeButton === 'feed' }"
-          @click="setActiveButton('feed')"
-          :title="isExpanded ? 'Feed de inspirações' : ''"
+        </router-link>
+
+        <router-link 
+          to="/feed"
+          class="button"
+          :class="{ active: route.path === '/feed' }"
         >
           <i class="mdi mdi-image-multiple"></i>
-          <span v-if="isExpanded" class="button-text">Feed</span>
-        </button>
+          <span v-if="isExpanded" class="button-text">Explore</span>
+        </router-link>
       </div>
     </div>
 
     <div class="bottom-section">
-      <button 
-        class="button settings" 
-        :class="{ 'active': activeButton === 'settings' }"
-        @click="setActiveButton('settings')"
-        :title="isExpanded ? 'Configurações' : ''"
+
+      <router-link 
+        to="/settings"
+        class="button settings"
+        :class="{ active: route.path === '/settings' }"
       >
         <i class="mdi mdi-cog"></i>
         <span v-if="isExpanded" class="button-text">Configurações</span>
-      </button>
-      
-      <div class="expand-collapse" @click="toggleExpanded" :title="isExpanded ? 'Recolher menu' : 'Expandir menu'">
+      </router-link>
+
+      <div 
+        class="expand-collapse" 
+        @click="toggleExpanded"
+        :title="isExpanded ? 'Recolher menu' : 'Expandir menu'"
+      >
         <i :class="isExpanded ? 'mdi mdi-chevron-left' : 'mdi mdi-chevron-right'"></i>
         <span v-if="isExpanded" class="button-text">Recolher</span>
       </div>
+      
+
     </div>
   </div>
 </template>
 
 <style scoped>
+a {
+  text-decoration: none;
+}
+
 .lateral-bar {
   position: fixed;
   top: 0;
@@ -98,6 +104,7 @@ const setActiveButton = (buttonName) => {
   transition: all 0.3s ease;
   z-index: 1000;
   overflow: hidden;
+  text-decoration: none;
 }
 
 .lateral-bar.expanded {
