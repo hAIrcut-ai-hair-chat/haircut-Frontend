@@ -29,7 +29,6 @@ function sendPhotos() {
     <div class="input-container">
       <div class="input-wrapper">
 
-        <!-- IMAGEM DENTRO DO INPUT (só aparece quando existe preview) -->
         <div v-if="previewUrl" class="image-inside">
           <img :src="previewUrl" alt="preview" />
           <button class="remove-btn" @click="removeImage">✕</button>
@@ -91,18 +90,17 @@ function sendPhotos() {
   width: 100%;
 }
 
-/* INPUT – com padding-left dinâmico */
 .photo-input {
   width: 100%;
   height: 65px;
-  padding: 0 140px 0 15px;   /* sem imagem: padding esquerdo pequeno */
+  padding: 0 140px 0 15px;  
   font-size: 1rem;
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.9);
   border: 1px solid rgba(0, 0, 0, 0.08);
   color: #2d3748;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
-  transition: all 0.25s ease, padding-left 0.25s ease; /* suaviza a mudança */
+  transition: all 0.25s ease, padding-left 0.25s ease; 
 }
 
 .photo-input:focus {
@@ -111,7 +109,6 @@ function sendPhotos() {
   background: white;
 }
 
-/* Quando há imagem, aumenta o padding para dar espaço */
 .photo-input.has-image {
   padding-left: 70px;
 }

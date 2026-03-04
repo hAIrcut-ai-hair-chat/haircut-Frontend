@@ -3,131 +3,131 @@
 import { ref } from 'vue'
 import LateralBar from '../components/LateralBar.vue'
 
-const posts = ref([
-  {
-    id: 1,
-    username: 'joaosilva',
-    userAvatar: 'https://i.pravatar.cc/40?u=1',
-    image: 'https://picsum.photos/600/400?random=1',
-    caption: 'Meu novo corte! 😎',
-    likes: 15,
-    comments: [
-      { id: 1, user: 'maria123', text: 'Ficou incrível!' },
-      { id: 2, user: 'carlos_oli', text: 'Combina com você' }
-    ],
-    liked: false
-  },
-  {
-    id: 2,
-    username: 'anabeatriz',
-    userAvatar: 'https://i.pravatar.cc/40?u=2',
-    image: 'https://picsum.photos/600/400?random=2',
-    caption: 'Inspiração para o próximo corte ✂️',
-    likes: 8,
-    comments: [],
-    liked: true
-  },
-  {
-    id: 3,
-    username: 'carlos_oli',
-    userAvatar: 'https://i.pravatar.cc/40?u=3',
-    image: 'https://picsum.photos/600/400?random=3',
-    caption: 'Degradê perfeito 🔥',
-    likes: 24,
-    comments: [],
-    liked: false
-  },
-  {
-    id: 4,
-    username: 'maria123',
-    userAvatar: 'https://i.pravatar.cc/40?u=4',
-    image: 'https://picsum.photos/600/400?random=4',
-    caption: 'Finalização com pomada',
-    likes: 12,
-    comments: [],
-    liked: false
-  },
-  {
-    id: 5,
-    username: 'lucas_fer',
-    userAvatar: 'https://i.pravatar.cc/40?u=5',
-    image: 'https://picsum.photos/600/400?random=5',
-    caption: 'Corte militar 👊',
-    likes: 32,
-    comments: [],
-    liked: false
-  },
-  {
-    id: 6,
-    username: 'julia_m',
-    userAvatar: 'https://i.pravatar.cc/40?u=6',
-    image: 'https://picsum.photos/600/400?random=6',
-    caption: 'Franja nova!',
-    likes: 19,
-    comments: [],
-    liked: false
-  },
-  {
-    id: 7,
-    username: 'joaosilva',
-    userAvatar: 'https://i.pravatar.cc/40?u=1',
-    image: 'https://picsum.photos/600/400?random=7',
-    caption: 'Mais um estilo! 💈',
-    likes: 21,
-    comments: [],
-    liked: false
-  },
-  {
-    id: 8,
-    username: 'anabeatriz',
-    userAvatar: 'https://i.pravatar.cc/40?u=2',
-    image: 'https://picsum.photos/600/400?random=8',
-    caption: 'Cores vibrantes 🎨',
-    likes: 34,
-    comments: [],
-    liked: false
-  },
-  {
-    id: 9,
-    username: 'carlos_oli',
-    userAvatar: 'https://i.pravatar.cc/40?u=3',
-    image: 'https://picsum.photos/600/400?random=9',
-    caption: 'Navalhado ✨',
-    likes: 18,
-    comments: [],
-    liked: false
-  },
-  {
-    id: 10,
-    username: 'maria123',
-    userAvatar: 'https://i.pravatar.cc/40?u=4',
-    image: 'https://picsum.photos/600/400?random=10',
-    caption: 'Finalização perfeita',
-    likes: 27,
-    comments: [],
-    liked: false
-  },
-  {
-    id: 11,
-    username: 'lucas_fer',
-    userAvatar: 'https://i.pravatar.cc/40?u=5',
-    image: 'https://picsum.photos/600/400?random=11',
-    caption: 'Estilo militar 🪖',
-    likes: 15,
-    comments: [],
-    liked: false
-  },
-  {
-    id: 12,
-    username: 'julia_m',
-    userAvatar: 'https://i.pravatar.cc/40?u=6',
-    image: 'https://picsum.photos/600/400?random=12',
-    caption: 'Tranças novas!',
-    likes: 42,
-    comments: [],
-    liked: false
-  }
-])
+  const posts = ref([
+    {
+      id: 1,
+      username: 'joaosilva',
+      userAvatar: 'https://i.pravatar.cc/40?u=1',
+      image: 'https://picsum.photos/600/400?random=1',
+      caption: 'Meu novo corte! 😎',
+      likes: 15,
+      comments: [
+        { id: 1, user: 'maria123', text: 'Ficou incrível!' },
+        { id: 2, user: 'carlos_oli', text: 'Combina com você' }
+      ],
+      liked: false
+    },
+    {
+      id: 2,
+      username: 'anabeatriz',
+      userAvatar: 'https://i.pravatar.cc/40?u=2',
+      image: 'https://picsum.photos/600/400?random=2',
+      caption: 'Inspiração para o próximo corte ✂️',
+      likes: 8,
+      comments: [],
+      liked: true
+    },
+    {
+      id: 3,
+      username: 'carlos_oli',
+      userAvatar: 'https://i.pravatar.cc/40?u=3',
+      image: 'https://picsum.photos/600/400?random=3',
+      caption: 'Degradê perfeito 🔥',
+      likes: 24,
+      comments: [],
+      liked: false
+    },
+    {
+      id: 4,
+      username: 'maria123',
+      userAvatar: 'https://i.pravatar.cc/40?u=4',
+      image: 'https://picsum.photos/600/400?random=4',
+      caption: 'Finalização com pomada',
+      likes: 12,
+      comments: [],
+      liked: false
+    },
+    {
+      id: 5,
+      username: 'lucas_fer',
+      userAvatar: 'https://i.pravatar.cc/40?u=5',
+      image: 'https://picsum.photos/600/400?random=5',
+      caption: 'Corte militar 👊',
+      likes: 32,
+      comments: [],
+      liked: false
+    },
+    {
+      id: 6,
+      username: 'julia_m',
+      userAvatar: 'https://i.pravatar.cc/40?u=6',
+      image: 'https://picsum.photos/600/400?random=6',
+      caption: 'Franja nova!',
+      likes: 19,
+      comments: [],
+      liked: false
+    },
+    {
+      id: 7,
+      username: 'joaosilva',
+      userAvatar: 'https://i.pravatar.cc/40?u=1',
+      image: 'https://picsum.photos/600/400?random=7',
+      caption: 'Mais um estilo! 💈',
+      likes: 21,
+      comments: [],
+      liked: false
+    },
+    {
+      id: 8,
+      username: 'anabeatriz',
+      userAvatar: 'https://i.pravatar.cc/40?u=2',
+      image: 'https://picsum.photos/600/400?random=8',
+      caption: 'Cores vibrantes 🎨',
+      likes: 34,
+      comments: [],
+      liked: false
+    },
+    {
+      id: 9,
+      username: 'carlos_oli',
+      userAvatar: 'https://i.pravatar.cc/40?u=3',
+      image: 'https://picsum.photos/600/400?random=9',
+      caption: 'Navalhado ✨',
+      likes: 18,
+      comments: [],
+      liked: false
+    },
+    {
+      id: 10,
+      username: 'maria123',
+      userAvatar: 'https://i.pravatar.cc/40?u=4',
+      image: 'https://picsum.photos/600/400?random=10',
+      caption: 'Finalização perfeita',
+      likes: 27,
+      comments: [],
+      liked: false
+    },
+    {
+      id: 11,
+      username: 'lucas_fer',
+      userAvatar: 'https://i.pravatar.cc/40?u=5',
+      image: 'https://picsum.photos/600/400?random=11',
+      caption: 'Estilo militar 🪖',
+      likes: 15,
+      comments: [],
+      liked: false
+    },
+    {
+      id: 12,
+      username: 'julia_m',
+      userAvatar: 'https://i.pravatar.cc/40?u=6',
+      image: 'https://picsum.photos/600/400?random=12',
+      caption: 'Tranças novas!',
+      likes: 42,
+      comments: [],
+      liked: false
+    }
+  ])
 
 const addNewPost = (postData) => {
   const newPost = {
@@ -144,13 +144,11 @@ const addNewPost = (postData) => {
   posts.value.unshift(newPost)
 }
 
-// Função para curtir/descurtir post
 const toggleLike = (post) => {
   post.liked = !post.liked
   post.likes += post.liked ? 1 : -1
 }
 
-// Expõe funções para componentes pais
 defineExpose({ addNewPost })
 </script>
 
@@ -171,7 +169,6 @@ defineExpose({ addNewPost })
           class="grid-item"
           :class="{ 'no-image': !post.image }"
         >
-          <!-- Imagem do post -->
           <img
             v-if="post.image"
             :src="post.image"
@@ -183,7 +180,6 @@ defineExpose({ addNewPost })
             <span>Sem imagem</span>
           </div>
 
-          <!-- Overlay com informações -->
           <div class="item-overlay">
             <div class="overlay-content">
               <span class="username">@{{ post.username }}</span>
