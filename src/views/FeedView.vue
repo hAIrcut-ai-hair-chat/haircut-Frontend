@@ -1,167 +1,47 @@
 <!-- Explore.vue -->
 <script setup>
-import { ref } from 'vue'
+import { onMounted } from 'vue'
+import { useImagesStore } from '@/stores/images'
 import LateralBar from '../components/LateralBar.vue'
 
-  const posts = ref([
-    {
-      id: 1,
-      username: 'joaosilva',
-      userAvatar: 'https://i.pravatar.cc/40?u=1',
-      image: 'https://picsum.photos/600/400?random=1',
-      caption: 'Meu novo corte! 😎',
-      likes: 15,
-      comments: [
-        { id: 1, user: 'maria123', text: 'Ficou incrível!' },
-        { id: 2, user: 'carlos_oli', text: 'Combina com você' }
-      ],
-      liked: false
-    },
-    {
-      id: 2,
-      username: 'anabeatriz',
-      userAvatar: 'https://i.pravatar.cc/40?u=2',
-      image: 'https://picsum.photos/600/400?random=2',
-      caption: 'Inspiração para o próximo corte ✂️',
-      likes: 8,
-      comments: [],
-      liked: true
-    },
-    {
-      id: 3,
-      username: 'carlos_oli',
-      userAvatar: 'https://i.pravatar.cc/40?u=3',
-      image: 'https://picsum.photos/600/400?random=3',
-      caption: 'Degradê perfeito 🔥',
-      likes: 24,
-      comments: [],
-      liked: false
-    },
-    {
-      id: 4,
-      username: 'maria123',
-      userAvatar: 'https://i.pravatar.cc/40?u=4',
-      image: 'https://picsum.photos/600/400?random=4',
-      caption: 'Finalização com pomada',
-      likes: 12,
-      comments: [],
-      liked: false
-    },
-    {
-      id: 5,
-      username: 'lucas_fer',
-      userAvatar: 'https://i.pravatar.cc/40?u=5',
-      image: 'https://picsum.photos/600/400?random=5',
-      caption: 'Corte militar 👊',
-      likes: 32,
-      comments: [],
-      liked: false
-    },
-    {
-      id: 6,
-      username: 'julia_m',
-      userAvatar: 'https://i.pravatar.cc/40?u=6',
-      image: 'https://picsum.photos/600/400?random=6',
-      caption: 'Franja nova!',
-      likes: 19,
-      comments: [],
-      liked: false
-    },
-    {
-      id: 7,
-      username: 'joaosilva',
-      userAvatar: 'https://i.pravatar.cc/40?u=1',
-      image: 'https://picsum.photos/600/400?random=7',
-      caption: 'Mais um estilo! 💈',
-      likes: 21,
-      comments: [],
-      liked: false
-    },
-    {
-      id: 8,
-      username: 'anabeatriz',
-      userAvatar: 'https://i.pravatar.cc/40?u=2',
-      image: 'https://picsum.photos/600/400?random=8',
-      caption: 'Cores vibrantes 🎨',
-      likes: 34,
-      comments: [],
-      liked: false
-    },
-    {
-      id: 9,
-      username: 'carlos_oli',
-      userAvatar: 'https://i.pravatar.cc/40?u=3',
-      image: 'https://picsum.photos/600/400?random=9',
-      caption: 'Navalhado ✨',
-      likes: 18,
-      comments: [],
-      liked: false
-    },
-    {
-      id: 10,
-      username: 'maria123',
-      userAvatar: 'https://i.pravatar.cc/40?u=4',
-      image: 'https://picsum.photos/600/400?random=10',
-      caption: 'Finalização perfeita',
-      likes: 27,
-      comments: [],
-      liked: false
-    },
-    {
-      id: 11,
-      username: 'lucas_fer',
-      userAvatar: 'https://i.pravatar.cc/40?u=5',
-      image: 'https://picsum.photos/600/400?random=11',
-      caption: 'Estilo militar 🪖',
-      likes: 15,
-      comments: [],
-      liked: false
-    },
-    {
-      id: 12,
-      username: 'julia_m',
-      userAvatar: 'https://i.pravatar.cc/40?u=6',
-      image: 'https://picsum.photos/600/400?random=12',
-      caption: 'Tranças novas!',
-      likes: 42,
-      comments: [],
-      liked: false
-    }
-  ])
+const store = useImagesStore()
+const { posts, loading, error, fetchImages, toggleLike, addNewPost } = store
 
-const addNewPost = (postData) => {
-  const newPost = {
-    id: Date.now(),
-    username: 'usuario_atual',
-    userAvatar: `https://i.pravatar.cc/40?u=${Date.now()}`,
-    image: postData.imageUrl || null,
-    caption: postData.text,
-    likes: 0,
-    comments: [],
-    liked: false
-  }
-  
-  posts.value.unshift(newPost)
+const handleImageError = (post) => {
+  console.error('Erro ao carregar imagem:', post.image)
+  post.image = null // Remove a imagem com erro
 }
 
-const toggleLike = (post) => {
-  post.liked = !post.liked
-  post.likes += post.liked ? 1 : -1
+const debugPosts = () => {
+  console.log('Posts atuais:', posts.value)
+  console.log('Loading:', loading.value)
+  console.log('Error:', error.value)
 }
+
+onMounted(() => {
+  fetchImages()
+})
 
 defineExpose({ addNewPost })
 </script>
 
 <template>
   <div class="explore-layout">
-    <!-- Conteúdo principal -->
     <main class="main-content">
-      <!-- Estado vazio -->
-      <div v-if="posts.length === 0" class="empty-explore">
-        <p>Nenhum post ainda. Seja o primeiro a compartilhar!</p>
+      <div v-if="loading" class="loading-state">
+        <p>Carregando imagens...</p>
       </div>
 
-      <!-- Grid de posts -->
+      <div v-else-if="error" class="error-state">
+        <p>Erro ao carregar imagens: {{ error }}</p>
+        <button @click="fetchImages" class="retry-btn">Tentar novamente</button>
+      </div>
+
+      <div v-else-if="posts.length === 0" class="empty-explore">
+        <p>Nenhuma imagem encontrada. Atualize a página.</p>
+        <button @click="debugPosts" class="retry-btn" style="margin-top: 1rem;">Renderizar</button>
+      </div>
+
       <div v-else class="explore-grid">
         <div
           v-for="post in posts"
@@ -175,14 +55,16 @@ defineExpose({ addNewPost })
             :alt="'Post de @' + post.username"
             class="grid-image"
             loading="lazy"
+            @error="handleImageError(post)"
           />
           <div v-else class="no-image-placeholder">
             <span>Sem imagem</span>
+            <small>{{ post.caption }}</small>
           </div>
-
           <div class="item-overlay">
             <div class="overlay-content">
               <span class="username">@{{ post.username }}</span>
+              <span class="caption">{{ post.caption }}</span>
               <span class="likes">
                 <button 
                   class="like-btn" 
@@ -232,6 +114,38 @@ defineExpose({ addNewPost })
   background: #f9f9f9;
   border-radius: 12px;
   margin: 2rem 0;
+}
+
+.loading-state,
+.error-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  font-size: 1.1rem;
+  background: #f9f9f9;
+  border-radius: 12px;
+  margin: 2rem 0;
+  color: #666;
+}
+
+.error-state {
+  background: #ffe6e6;
+  color: #c33;
+}
+
+.retry-btn {
+  margin-top: 1rem;
+  padding: 0.6rem 1.2rem;
+  background: #333;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.2s ease;
+}
+
+.retry-btn:hover {
+  background: #555;
 }
 
 .explore-grid {
@@ -314,6 +228,15 @@ defineExpose({ addNewPost })
 .username {
   font-weight: 600;
   font-size: 1rem;
+}
+
+.caption {
+  font-size: 0.85rem;
+  opacity: 0.9;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .likes {

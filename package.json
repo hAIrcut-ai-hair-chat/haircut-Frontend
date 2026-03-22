@@ -27,5 +27,17 @@
     "prettier": "^3.3.3",
     "vite": "^6.4.1",
     "vite-plugin-vue-devtools": "^7.7.2"
-  }
+  },
+  "description": "This template should help get you started developing with Vue 3 in Vite.",
+  "main": "vite.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kauabarros-24/haircut-Frontend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kauabarros-24/haircut-Frontend/issues"
+  },
+  "homepage": "https://github.com/kauabarros-24/haircut-Frontend#readme"
 }
