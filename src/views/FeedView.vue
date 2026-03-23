@@ -4,25 +4,9 @@ import { onMounted } from 'vue'
 import { useImagesStore } from '@/stores/images'
 import LateralBar from '../components/LateralBar.vue'
 
-const store = useImagesStore()
-const { posts, loading, error, fetchImages, toggleLike, addNewPost } = store
+const { posts, loading, error, fetchImages, toggleLike } = useImagesStore()
 
-const handleImageError = (post) => {
-  console.error('Erro ao carregar imagem:', post.image)
-  post.image = null // Remove a imagem com erro
-}
-
-const debugPosts = () => {
-  console.log('Posts atuais:', posts.value)
-  console.log('Loading:', loading.value)
-  console.log('Error:', error.value)
-}
-
-onMounted(() => {
-  fetchImages()
-})
-
-defineExpose({ addNewPost })
+onMounted(fetchImages)
 </script>
 
 <template>
