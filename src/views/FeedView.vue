@@ -23,7 +23,7 @@ onMounted(fetchImages)
 
       <div v-else-if="posts.length === 0" class="empty-explore">
         <p>Nenhuma imagem encontrada. Atualize a página.</p>
-        <button @click="debugPosts" class="retry-btn" style="margin-top: 1rem;">Renderizar</button>
+        <button @click="fetchImages" class="retry-btn" style="margin-top: 1rem;">Tentar novamente</button>
       </div>
 
       <div v-else class="explore-grid">

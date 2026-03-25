@@ -20,15 +20,12 @@ export const useImagesStore = defineStore('images', () => {
       const data = response.data
       console.log('[fetchImages] Resposta recebida:', data)
 
-      // --- Estratégia de extração do array ---
       let array = []
 
-      // 1. Se for um array diretamente
       if (Array.isArray(data)) {
         array = data
         console.log('[fetchImages] Resposta é um array diretamente.')
       }
-      // 2. Se for um objeto com a propriedade 'data' ou 'items' que seja array
       else if (data?.data && Array.isArray(data.data)) {
         array = data.data
         console.log('[fetchImages] Array encontrado em data.data')
@@ -36,7 +33,6 @@ export const useImagesStore = defineStore('images', () => {
         array = data.items
         console.log('[fetchImages] Array encontrado em data.items')
       }
-      // 3. Se for um objeto com outras propriedades comuns (ex: posts, feed, results)
       else if (data?.posts && Array.isArray(data.posts)) {
         array = data.posts
         console.log('[fetchImages] Array encontrado em data.posts')
@@ -47,7 +43,7 @@ export const useImagesStore = defineStore('images', () => {
         array = data.results
         console.log('[fetchImages] Array encontrado em data.results')
       }
-      // 4. Se não encontrou, tenta achar o primeiro valor que seja array dentro do objeto  
+ 
       else if (typeof data === 'object' && data !== null) {
         const possibleArrays = Object.values(data).filter(v => Array.isArray(v))
         if (possibleArrays.length > 0) {
@@ -63,21 +59,21 @@ export const useImagesStore = defineStore('images', () => {
       posts.value = array.map((item, i) => {
         const mapped = {
           id: item.id || item._id || i + 1,
-          username: item.username || `usuario_${i + 1}`,
-          userAvatar: item.userAvatar || `https://i.pravatar.cc/40?u=${i + 1}`,
-          image: item.file,
-          caption: item.caption || item.description || 'Sem descrição',
-          likes: item.likes || 0,
+          username: item.author.name,
+          userAvatar: item.userAvatar || item.avatar || `https://i.pravatar.cc/40?u=${i + 1}`,
+          image: item.file || item.image || item.url || item.photo || item.foto || null,
+          caption: item.caption || item.description || item.title || item.text || 'Sem descrição',
+          likes: item.likes || item.likeCount || 0,
           comments: item.comments || [],
           liked: !!item.liked
         }
         console.log(`[fetchImages] Item ${i} mapeado:`, mapped)
         return mapped
-      })
+      }).filter(post => post.image)
 
-      console.log('[fetchImages] posts finalizado:', posts.value)
+      console.log('[fetchImages] posts finalizado (filtrado):', posts.value)
       if (posts.value.length === 0) {
-        console.warn('[fetchImages] Nenhum post foi carregado. Verifique a estrutura da resposta no log acima.')
+        console.warn('[fetchImages] Nenhum post com imagem válida foi encontrado. Verifique se a API retorna URLs de imagem válidas nos campos: file, image, url, photo, foto')
       }
     } catch (err) {
       console.error('[fetchImages] Erro capturado:', err)
@@ -102,4 +98,4 @@ export const useImagesStore = defineStore('images', () => {
   }
 
   return { posts, loading, error, fetchImages, toggleLike }
-})
+}, { persist: true })
