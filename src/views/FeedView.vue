@@ -4,9 +4,19 @@ import { onMounted } from 'vue'
 import { useImagesStore } from '@/stores/images'
 import LateralBar from '../components/LateralBar.vue'
 
-const { posts, loading, error, fetchImages, toggleLike } = useImagesStore()
+const { posts, loading, error, fetchImages, toggleLike, saveImage, isImageSaved } = useImagesStore()
 
 onMounted(fetchImages)
+
+const toggleSave = (post) => {
+  if (isImageSaved(post.id)) {
+    // Se já está salva, remove
+    // Por enquanto não temos função de remover, então apenas salva novamente (não duplica)
+    console.log('Imagem já salva')
+  } else {
+    saveImage(post)
+  }
+}
 </script>
 
 <template>
@@ -49,7 +59,15 @@ onMounted(fetchImages)
             <div class="overlay-content">
               <span class="username">@{{ post.username }}</span>
               <span class="caption">{{ post.caption }}</span>
-              <span class="likes">
+              <div class="actions">
+                <button 
+                  class="save-btn" 
+                  :class="{ saved: isImageSaved(post.id) }" 
+                  @click.stop="toggleSave(post)"
+                  :title="isImageSaved(post.id) ? 'Remover dos salvos' : 'Salvar imagem'"
+                >
+                  <span class="heart" aria-hidden="true">{{ isImageSaved(post.id) ? '❤️' : '🤍' }}</span>
+                </button>
                 <button 
                   class="like-btn" 
                   :class="{ liked: post.liked }" 
@@ -59,7 +77,7 @@ onMounted(fetchImages)
                   <span class="heart" aria-hidden="true">❤️</span>
                   {{ post.likes }}
                 </button>
-              </span>
+              </div>
             </div>
           </div>
         </div>
@@ -134,7 +152,7 @@ onMounted(fetchImages)
 
 .explore-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
   margin-bottom: 2rem;
 }
@@ -223,12 +241,14 @@ onMounted(fetchImages)
   overflow: hidden;
 }
 
-.likes {
+.actions {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  margin-top: 0.5rem;
 }
 
-.like-btn {
+.save-btn, .like-btn {
   background: none;
   border: none;
   color: white;
@@ -243,8 +263,12 @@ onMounted(fetchImages)
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 
-.like-btn:hover {
+.save-btn:hover, .like-btn:hover {
   background-color: rgba(255, 255, 255, 0.1);
+}
+
+.save-btn.saved {
+  color: #ff6b6b;
 }
 
 .like-btn.liked .heart {

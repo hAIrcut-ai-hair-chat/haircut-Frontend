@@ -8,6 +8,7 @@ export const useImagesStore = defineStore('images', () => {
   const posts = ref([])
   const loading = ref(false)
   const error = ref(null)
+  const savedImages = ref([])
 
   const fetchImages = async () => {
     console.log('[fetchImages] Iniciando carregamento...')
@@ -59,7 +60,7 @@ export const useImagesStore = defineStore('images', () => {
       posts.value = array.map((item, i) => {
         const mapped = {
           id: item.id || item._id || i + 1,
-          username: item.author.name,
+          username: item.author.name || "Aleluia  ",
           userAvatar: item.userAvatar || item.avatar || `https://i.pravatar.cc/40?u=${i + 1}`,
           image: item.file || item.image || item.url || item.photo || item.foto || null,
           caption: item.caption || item.description || item.title || item.text || 'Sem descrição',
@@ -69,7 +70,7 @@ export const useImagesStore = defineStore('images', () => {
         }
         console.log(`[fetchImages] Item ${i} mapeado:`, mapped)
         return mapped
-      }).filter(post => post.image)
+      }).filter(post => post.image) 
 
       console.log('[fetchImages] posts finalizado (filtrado):', posts.value)
       if (posts.value.length === 0) {
@@ -97,5 +98,35 @@ export const useImagesStore = defineStore('images', () => {
     console.log(`[toggleLike] Post depois: liked=${post.liked}, likes=${post.likes}`)
   }
 
-  return { posts, loading, error, fetchImages, toggleLike }
+  const saveImage = (post) => {
+    if (!post || !post.image) {
+      console.warn('[saveImage] Tentativa de salvar post inválido:', post)
+      return
+    }
+
+    const alreadySaved = savedImages.value.some(saved => saved.id === post.id)
+    if (!alreadySaved) {
+      savedImages.value.push({
+        ...post,
+        savedAt: new Date().toISOString()
+      })
+      console.log('[saveImage] Imagem salva:', post.id)
+    } else {
+      console.log('[saveImage] Imagem já estava salva:', post.id)
+    }
+  }
+
+  const removeSavedImage = (imageId) => {
+    const index = savedImages.value.findIndex(img => img.id === imageId)
+    if (index > -1) {
+      savedImages.value.splice(index, 1)
+      console.log('[removeSavedImage] Imagem removida:', imageId)
+    }
+  }
+
+  const isImageSaved = (imageId) => {
+    return savedImages.value.some(img => img.id === imageId)
+  }
+
+  return { posts, loading, error, savedImages, fetchImages, toggleLike, saveImage, removeSavedImage, isImageSaved }
 }, { persist: true })

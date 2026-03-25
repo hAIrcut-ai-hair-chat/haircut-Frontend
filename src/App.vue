@@ -1,25 +1,11 @@
 <template>
   <main>
-    <div class="glass-carousel">
-      <div class="carousel-track">
-        <div class="item item-1">✂︎</div>
-        <div class="item item-2">✂︎</div>
-        <div class="item item-3">✂︎</div>
-        <div class="item item-4">✂︎</div>
-        <div class="item item-5">✂︎</div>
-        <div class="item item-6">✂︎</div>
-      </div>
-    </div>
-
-    <div class="glass-film" aria-hidden="true"></div>
-
-    <div class="content-wrapper">
-      <RouterView />
-    </div>
+    <RouterView />
   </main>
 </template>
 
 <script setup>
+// Código anterior simples
 </script>
 
 <style>
@@ -28,7 +14,7 @@ html, body {
   padding: 0;
   min-height: 100%;
   font-family: 'Segoe UI', Roboto, sans-serif;
-  background: #0b0f16;
+  background: #f5f5f5;
   overflow-x: hidden;
 }
 
