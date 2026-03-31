@@ -13,7 +13,25 @@ onMounted(() => {
 </script>
 
 <template>
-  <h1>Logging out..</h1>
+  <div class="logout-container">
+    <h1>Logging out..</h1>
+  </div>
 </template>
 
-<style></style>
+<style scoped>
+.logout-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #ffffff;
+}
+
+h1 {
+  font-size: 2rem;
+  color: #333;
+  margin: 0;
+  text-align: center;
+}
+</style>

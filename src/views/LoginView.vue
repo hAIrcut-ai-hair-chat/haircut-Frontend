@@ -15,7 +15,7 @@ const appId = import.meta.env.VITE_PASSAGE_APP_ID;
 <style scoped>
 body {
   font-family: "Arial", sans-serif;
-  background-color: #f4f4f9;
+  background-color: #ffffff;
   margin: 0;
   padding: 20px;
   color: #333;
@@ -27,6 +27,7 @@ body {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
+  background-color: #ffffff;
 }
 
 h1 {

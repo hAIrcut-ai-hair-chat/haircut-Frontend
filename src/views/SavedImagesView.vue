@@ -160,7 +160,7 @@ const handleImageError = (event) => {
   display: grid;
   grid-template-columns: 1fr 6fr;
   height: 100vh;
-  background: #f4f6f9;
+  background: #ffffff;
   font-family: 'Inter', sans-serif;
 }
 

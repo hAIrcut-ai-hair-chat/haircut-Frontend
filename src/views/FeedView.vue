@@ -1,22 +1,24 @@
-<!-- Explore.vue -->
 <script setup>
-import { onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useImagesStore } from '@/stores/images'
 import LateralBar from '../components/LateralBar.vue'
 
 const { posts, loading, error, fetchImages, toggleLike, saveImage, isImageSaved } = useImagesStore()
-
 onMounted(fetchImages)
 
 const toggleSave = (post) => {
   if (isImageSaved(post.id)) {
-    // Se já está salva, remove
-    // Por enquanto não temos função de remover, então apenas salva novamente (não duplica)
     console.log('Imagem já salva')
   } else {
     saveImage(post)
   }
 }
+
+const lightboxImage = ref(null)
+const openLightbox = (post) => {
+  if (post.image) lightboxImage.value = post.image
+}
+const closeLightbox = () => lightboxImage.value = null
 </script>
 
 <template>
@@ -25,17 +27,14 @@ const toggleSave = (post) => {
       <div v-if="loading" class="loading-state">
         <p>Carregando imagens...</p>
       </div>
-
       <div v-else-if="error" class="error-state">
         <p>Erro ao carregar imagens: {{ error }}</p>
         <button @click="fetchImages" class="retry-btn">Tentar novamente</button>
       </div>
-
       <div v-else-if="posts.length === 0" class="empty-explore">
         <p>Nenhuma imagem encontrada. Atualize a página.</p>
         <button @click="fetchImages" class="retry-btn" style="margin-top: 1rem;">Tentar novamente</button>
       </div>
-
       <div v-else class="explore-grid">
         <div
           v-for="post in posts"
@@ -50,6 +49,8 @@ const toggleSave = (post) => {
             class="grid-image"
             loading="lazy"
             @error="handleImageError(post)"
+            @click="openLightbox(post)"
+            style="cursor: pointer"
           />
           <div v-else class="no-image-placeholder">
             <span>Sem imagem</span>
@@ -84,6 +85,11 @@ const toggleSave = (post) => {
       </div>
     </main>
     <LateralBar />
+
+    <div v-if="lightboxImage" class="lightbox-overlay" @click.self="closeLightbox">
+      <img :src="lightboxImage" class="lightbox-image" />
+      <button class="close-btn" @click="closeLightbox">✕</button>
+    </div>
   </div>
 </template>
 
@@ -92,9 +98,9 @@ const toggleSave = (post) => {
   display: flex;
   min-height: 100vh;
   width: 100%;
+  background-color: #ffffff;
   position: relative;
 }
-
 .main-content {
   flex: 1;
   max-width: 1200px;
@@ -102,24 +108,10 @@ const toggleSave = (post) => {
   padding: 1rem;
   transition: margin-right 0.3s ease;
 }
-
-/* Ajuste para quando a sidebar expandir */
 :deep(.lateral-bar.expanded) ~ .main-content {
-  margin-right: 280px; /* Ajuste conforme a largura da sua sidebar */
+  margin-right: 280px;
 }
-
-.empty-explore {
-  text-align: center;
-  color: #666;
-  padding: 3rem 1rem;
-  font-size: 1.1rem;
-  background: #f9f9f9;
-  border-radius: 12px;
-  margin: 2rem 0;
-}
-
-.loading-state,
-.error-state {
+.empty-explore, .loading-state, .error-state {
   text-align: center;
   padding: 3rem 1rem;
   font-size: 1.1rem;
@@ -128,12 +120,10 @@ const toggleSave = (post) => {
   margin: 2rem 0;
   color: #666;
 }
-
 .error-state {
   background: #ffe6e6;
   color: #c33;
 }
-
 .retry-btn {
   margin-top: 1rem;
   padding: 0.6rem 1.2rem;
@@ -145,18 +135,13 @@ const toggleSave = (post) => {
   font-size: 1rem;
   transition: background-color 0.2s ease;
 }
-
-.retry-btn:hover {
-  background: #555;
-}
-
+.retry-btn:hover { background: #555; }
 .explore-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
   margin-bottom: 2rem;
 }
-
 .grid-item {
   position: relative;
   border-radius: 12px;
@@ -167,19 +152,16 @@ const toggleSave = (post) => {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-
 .grid-item:hover {
   transform: scale(1.02);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
-
 .grid-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
-
 .no-image-placeholder {
   width: 100%;
   height: 100%;
@@ -190,13 +172,11 @@ const toggleSave = (post) => {
   color: #666;
   font-size: 0.9rem;
 }
-
 .no-image-placeholder span {
   padding: 0.5rem;
   background: rgba(255, 255, 255, 0.8);
   border-radius: 4px;
 }
-
 .item-overlay {
   position: absolute;
   top: 0;
@@ -213,11 +193,7 @@ const toggleSave = (post) => {
   padding: 1rem;
   box-sizing: border-box;
 }
-
-.grid-item:hover .item-overlay {
-  opacity: 1;
-}
-
+.grid-item:hover .item-overlay { opacity: 1; }
 .overlay-content {
   display: flex;
   flex-direction: column;
@@ -226,12 +202,7 @@ const toggleSave = (post) => {
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
   width: 100%;
 }
-
-.username {
-  font-weight: 600;
-  font-size: 1rem;
-}
-
+.username { font-weight: 600; font-size: 1rem; }
 .caption {
   font-size: 0.85rem;
   opacity: 0.9;
@@ -240,14 +211,12 @@ const toggleSave = (post) => {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-
 .actions {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-top: 0.5rem;
 }
-
 .save-btn, .like-btn {
   background: none;
   border: none;
@@ -262,44 +231,47 @@ const toggleSave = (post) => {
   transition: background-color 0.2s ease;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 }
+.save-btn:hover, .like-btn:hover { background-color: rgba(255, 255, 255, 0.1); }
+.save-btn.saved { color: #ff6b6b; }
+.like-btn.liked .heart { color: #ff4444; transform: scale(1.1); }
+.heart { font-size: 1.1rem; transition: transform 0.2s ease; }
+@media (max-width: 768px) { .explore-grid { grid-template-columns: repeat(2, 1fr); gap: 0.8rem; } .main-content { margin-right: 0 !important; } }
+@media (max-width: 480px) { .main-content { padding: 0.5rem; } .explore-grid { grid-template-columns: 1fr; gap: 0.8rem; } }
 
-.save-btn:hover, .like-btn:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+/* Lightbox */
+.lightbox-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 1rem;
+  box-sizing: border-box;
 }
-
-.save-btn.saved {
-  color: #ff6b6b;
+.lightbox-image {
+  max-width: 90%;
+  max-height: 90%; 
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  transition: transform 0.3s ease;
 }
-
-.like-btn.liked .heart {
-  color: #ff4444;
-  transform: scale(1.1);
+.close-btn {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(0,0,0,0.5);
+  color: white;
+  border: none;
+  font-size: 1.5rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 1010;
 }
-
-.heart {
-  font-size: 1.1rem;
-  transition: transform 0.2s ease;
-}
-
-@media (max-width: 768px) {
-  .explore-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.8rem;
-  }
-  
-  .main-content {
-    margin-right: 0 !important;
-  }
-}
-
-@media (max-width: 480px) {
-  .main-content {
-    padding: 0.5rem;
-  }
-
-  .explore-grid {
-    grid-template-columns: 1fr;
-    gap: 0.8rem;
-  }
-}
+.close-btn:hover { background: rgba(0,0,0,0.8); }
 </style>

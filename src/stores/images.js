@@ -95,6 +95,9 @@ export const useImagesStore = defineStore('images', () => {
     console.log(`[toggleLike] Post antes: id=${post.id}, liked=${post.liked}, likes=${post.likes}`)
     post.liked = !post.liked
     post.likes += post.liked ? 1 : -1
+    if (post.liked) {
+      saveImage(post)
+    }
     console.log(`[toggleLike] Post depois: liked=${post.liked}, likes=${post.likes}`)
   }
 
