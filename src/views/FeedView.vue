@@ -98,8 +98,10 @@ const closeLightbox = () => lightboxImage.value = null
   display: flex;
   min-height: 100vh;
   width: 100%;
-  background-color: #ffffff;
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
   position: relative;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 .main-content {
   flex: 1;
@@ -115,27 +117,28 @@ const closeLightbox = () => lightboxImage.value = null
   text-align: center;
   padding: 3rem 1rem;
   font-size: 1.1rem;
-  background: #f9f9f9;
+  background: var(--bg-primary);
   border-radius: 12px;
   margin: 2rem 0;
-  color: #666;
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 .error-state {
-  background: #ffe6e6;
-  color: #c33;
+  background: var(--bg-primary);
+  color: #ff6b6b;
 }
 .retry-btn {
   margin-top: 1rem;
   padding: 0.6rem 1.2rem;
-  background: #333;
-  color: white;
+  background: var(--text-primary);
+  color: var(--bg-primary);
   border: none;
   border-radius: 6px;
   cursor: pointer;
   font-size: 1rem;
   transition: background-color 0.2s ease;
 }
-.retry-btn:hover { background: #555; }
+.retry-btn:hover { background: var(--text-secondary); }
 .explore-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -146,15 +149,15 @@ const closeLightbox = () => lightboxImage.value = null
   position: relative;
   border-radius: 12px;
   overflow: hidden;
-  background-color: #f5f5f5;
+  background-color: var(--bg-primary);
   aspect-ratio: 1 / 1;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px var(--shadow-medium);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 .grid-item:hover {
   transform: scale(1.02);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px var(--shadow-medium);
 }
 .grid-image {
   width: 100%;
@@ -168,14 +171,15 @@ const closeLightbox = () => lightboxImage.value = null
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #e0e0e0 0%, #f0f0f0 100%);
-  color: #666;
+  background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+  color: var(--text-secondary);
   font-size: 0.9rem;
 }
 .no-image-placeholder span {
   padding: 0.5rem;
   background: rgba(255, 255, 255, 0.8);
   border-radius: 4px;
+  color: var(--text-primary);
 }
 .item-overlay {
   position: absolute;

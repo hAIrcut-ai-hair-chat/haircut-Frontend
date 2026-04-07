@@ -5,17 +5,46 @@
 </template>
 
 <script setup>
-// Código anterior simples
+import { useThemeStore } from '@/stores/theme'
+import { onMounted } from 'vue'
+
+const themeStore = useThemeStore()
+
+onMounted(() => {
+  // Aplicar tema ao carregar
+  themeStore.isDark
+})
 </script>
 
 <style>
+:root {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f5f5f5;
+  --text-primary: #262626;
+  --text-secondary: #8e8e8e;
+  --border-color: #e0e0e0;
+  --shadow-light: rgba(0, 0, 0, 0.05);
+  --shadow-medium: rgba(0, 0, 0, 0.1);
+}
+
+html[data-theme='dark'] {
+  --bg-primary: #121212;
+  --bg-secondary: #1e1e1e;
+  --text-primary: #e0e0e0;
+  --text-secondary: #b0b0b0;
+  --border-color: #333333;
+  --shadow-light: rgba(255, 255, 255, 0.05);
+  --shadow-medium: rgba(255, 255, 255, 0.1);
+}
+
 html, body {
   margin: 0;
   padding: 0;
   min-height: 100%;
   font-family: 'Segoe UI', Roboto, sans-serif;
-  background: #f5f5f5;
+  background: var(--bg-secondary);
   overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 #app, main {

@@ -5,6 +5,7 @@ import LogoutView from "../views/LogoutView.vue";
 import FeedView from '../views/FeedView.vue'
 import SavedImagesView from '../views/SavedImagesView.vue'
 import SettingsView from "../views/SettingsView.vue";
+import UsuarioView from "../views/UsuarioView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -38,6 +39,11 @@ const router = createRouter({
       "path": "/settings",
       "name": "settings",
       "component": SettingsView
+    },
+    {
+      path: "/usuario",
+      name: "usuario",
+      component: UsuarioView
     }
   ],
 });

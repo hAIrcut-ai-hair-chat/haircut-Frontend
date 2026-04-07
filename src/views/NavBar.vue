@@ -21,9 +21,9 @@ const toggleDropdown = () => {
   <header class="navbar">
     <nav>
       <div class="nav-left">
-        <router-link :to="{ name: 'home' }" class="logo">Livraria</router-link>
-        <router-link :to="{ name: 'categorias' }">Categorias</router-link>
-        <router-link :to="{ name: 'livros' }">Livros</router-link>
+        <router-link :to="{ name: 'home' }" class="logo">Haircut</router-link>
+        <router-link :to="{ name: 'feed' }">Feed</router-link>
+        <router-link :to="{ name: 'images' }">Saved Images</router-link>
       </div>
 
       <div class="nav-right" v-if="isLoggedIn">
@@ -33,7 +33,7 @@ const toggleDropdown = () => {
         <!-- Foto do usuário com dropdown -->
         <div class="user-menu" @click="toggleDropdown">
           <img
-            v-if="user.foto && user.foto.url"
+            v-if="user && user.foto && user.foto.url"
             :src="user.foto.url"
             alt="Foto do usuário"
             class="user-photo-small"
@@ -45,7 +45,7 @@ const toggleDropdown = () => {
             class="user-photo-small"
           />
 
-          <div v-if="showDropdown" class="dropdown-menu">
+          <div v-if="showDropdown && user" class="dropdown-menu">
             <p><strong>{{ user.name }}</strong></p>
             <p class="email">{{ user.email }}</p> <!-- Adiciona classe email -->
             <router-link to="/logout" class="dropdown-item">Logout</router-link>
