@@ -1,9 +1,10 @@
 <script setup>
 import { ref } from "vue"
+import { usePromptStore } from "../stores/prompt"
 
 const selectedFile = ref(null)
-const textPrompt = ref("")
 const previewUrl = ref(null)
+const promptStore = usePromptStore()
 
 function handleFile(event) {
   const file = event.target.files[0]
@@ -18,9 +19,16 @@ function removeImage() {
   previewUrl.value = null
 }
 
-function sendPhotos() {
-  console.log("Texto:", textPrompt.value)
+async function sendPhotos() {
+  if (!promptStore.prompt.trim()) {
+    alert("Por favor, descreva o corte de cabelo desejado")
+    return
+  }
+
+  console.log("Texto:", promptStore.prompt)
   console.log("Arquivo:", selectedFile.value)
+  
+  await promptStore.sendPrompt()
 }
 </script>
 
@@ -37,10 +45,11 @@ function sendPhotos() {
         <input
           type="text"
           class="photo-input"
-          :class="{ 'has-image': previewUrl }"
+          :class="{ 'has-image': previewUrl, 'loading': promptStore.loading }"
           placeholder="Descreva como você deseja seu corte de cabelo"
-          v-model="textPrompt"
+          v-model="promptStore.prompt"
           @keyup.enter="sendPhotos"
+          :disabled="promptStore.loading"
         />
 
         <div class="input-actions">
@@ -60,12 +69,23 @@ function sendPhotos() {
             class="action-btn send-btn"
             title="Enviar para análise"
             @click="sendPhotos"
+            :disabled="promptStore.loading"
           >
-            <i class="mdi mdi-send"></i>
-            <span class="btn-label">Enviar</span>
+            <i :class="promptStore.loading ? 'mdi mdi-loading mdi-spin' : 'mdi mdi-send'"></i>
+            <span class="btn-label">{{ promptStore.loading ? "Enviando..." : "Enviar" }}</span>
           </button>
         </div>
 
+      </div>
+
+      <div v-if="promptStore.error" class="error-message">
+        <i class="mdi mdi-alert-circle"></i>
+        {{ promptStore.error }}
+      </div>
+
+      <div v-if="promptStore.response" class="response-message">
+        <i class="mdi mdi-check-circle"></i>
+        {{ promptStore.response }}
       </div>
     </div>
   </div>
@@ -192,5 +212,59 @@ function sendPhotos() {
   background: rgba(0,0,0,0.7);
   color: white;
   cursor: pointer;
+}
+
+/* MENSAGENS */
+.error-message {
+  margin-top: 1rem;
+  padding: 12px 16px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 8px;
+  color: #ef4444;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  animation: slideIn 0.3s ease;
+}
+
+.response-message {
+  margin-top: 1rem;
+  padding: 12px 16px;
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  border-radius: 8px;
+  color: #22c55e;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  animation: slideIn 0.3s ease;
+}
+
+.photo-input.loading {
+  opacity: 0.7;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes mdi-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.mdi-spin {
+  animation: mdi-spin 1s linear infinite;
 }
 </style>
