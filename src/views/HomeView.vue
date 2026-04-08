@@ -4,6 +4,8 @@ import { PassageUser } from '@passageidentity/passage-elements/passage-user'
 import { useAuthStore } from '@/stores/auth'
 import LateralBar from '@/components/LateralBar.vue'
 import PhotoComponent from '@/components/PhotoComponent.vue'
+import OutputComponent from '@/components/OutputComponent.vue'
+
 
 const authStore = useAuthStore()
 const psg_auth_token = ref('')
@@ -79,6 +81,9 @@ onMounted(() => {
 
       <div class="photo-container">
         <PhotoComponent />
+      </div>
+      <div class="output-container">
+        <OutputComponent />
       </div>
     </main>
   </div>
@@ -348,5 +353,15 @@ onMounted(() => {
   .profile-icon i {
     font-size: 24px;
   }
+}
+.output-container {
+  bottom: 0;
+  left: 200px;
+  right: 0;
+  top: 300px; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
 }
 </style>

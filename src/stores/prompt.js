@@ -24,13 +24,18 @@ export const usePromptStore = defineStore('prompt', () => {
 
     const authStore = useAuthStore()
 
-    uuid.value = null
-    author.value = 1
+    uuid.value = crypto.randomUUID()
+    author.value = authStore.user?.id || authStore.user?.uuid || 1
     created_at.value = new Date().toISOString()
+    image_url.value = ''
+    feedback.value = null
 
     const dataToSend = {
+      uuid: uuid.value,
       author: author.value,
       prompt: prompt.value,
+      image_url: image_url.value,
+      created_at: created_at.value,
       feedback: feedback.value
     }
 
@@ -39,14 +44,25 @@ export const usePromptStore = defineStore('prompt', () => {
 
       console.log('[sendPrompt] Resposta recebida:', res.data)
 
-      response.value = res.data.prompt
-      image_url.value = res.data.image_url
-      uuid.value = res.data.uuid
-      created_at.value = res.data.created_at
+      response.value = res.data.prompt || res.data.response || ''
+      image_url.value = res.data.image_url || image_url.value
+      uuid.value = res.data.uuid || uuid.value
+      created_at.value = res.data.created_at || created_at.value
 
     } catch (err) {
       console.error('[sendPrompt] Erro:', err)
-      error.value = 'Erro ao enviar prompt. Tente novamente.'
+      if (err.response) {
+        const status = err.response.status
+        const responseData = err.response.data
+        console.error('[sendPrompt] Erro de resposta:', status, responseData)
+
+        const details = responseData?.detail || responseData?.message || responseData || 'Falha ao enviar prompt.'
+        const message = typeof details === 'object' ? JSON.stringify(details, null, 2) : details
+
+        error.value = `Erro ${status}: ${message}`
+      } else {
+        error.value = 'Erro ao enviar prompt. Tente novamente.'
+      }
     } finally {
       loading.value = false
     }
