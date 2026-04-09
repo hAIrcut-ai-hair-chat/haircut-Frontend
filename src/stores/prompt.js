@@ -2,6 +2,7 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import axios from 'axios'
 import { useAuthStore } from './auth.js'
+import getPromptMessage from '@/composables/getPromptMessage.js'
 
 const api_url = "http://127.0.0.1:19003/api/ai/"
 
@@ -18,6 +19,11 @@ export const usePromptStore = defineStore('prompt', () => {
 
   const sendPrompt = async () => {
     console.log('[sendPrompt] Enviando prompt:', prompt.value)
+    
+    const validatedPrompt = await getPromptMessage(prompt.value)
+    if (!validatedPrompt) {
+      return
+    }
 
     loading.value = true
     error.value = null

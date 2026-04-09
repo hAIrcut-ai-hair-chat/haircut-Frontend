@@ -5,6 +5,8 @@ import { useAuthStore } from '@/stores/auth'
 import LateralBar from '@/components/LateralBar.vue'
 import PhotoComponent from '@/components/PhotoComponent.vue'
 import OutputComponent from '@/components/OutputComponent.vue'
+import AiOutputComponent from '@/components/AiOutputComponent.vue'
+
 
 
 const authStore = useAuthStore()
@@ -84,6 +86,9 @@ onMounted(() => {
       </div>
       <div class="output-container">
         <OutputComponent />
+      </div>
+      <div class="ai-ouput-container">
+        <AiOutputComponent />
       </div>
     </main>
   </div>
