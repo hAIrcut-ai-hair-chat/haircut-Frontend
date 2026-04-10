@@ -74,18 +74,17 @@ const hasContent = computed(() => {
 .output {
   flex: 1;
   min-height: 120px;
-  background-color: #f8fafc;
+  background: rgba(255, 255, 255, 0.92);
   padding: 20px;
-  overflow-y: auto;
   color: #111827;
   border-radius: 12px;
-  border: 1px solid #e5e7eb;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.02);
+  box-shadow: 0px 20px 24px rgba(0, 0, 0, 0.06);
+  transition: all 0.25s ease;
 }
 
 .output.loading {
-  background-color: #f0f9ff;
+  background-color: #eef6ff;
   border-color: #bae6fd;
 }
 

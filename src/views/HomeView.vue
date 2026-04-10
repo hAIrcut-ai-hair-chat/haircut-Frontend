@@ -2,10 +2,9 @@
 import { onMounted, ref } from 'vue'
 import { PassageUser } from '@passageidentity/passage-elements/passage-user'
 import { useAuthStore } from '@/stores/auth'
-import LateralBar from '@/components/LateralBar.vue'
-import PhotoComponent from '@/components/PhotoComponent.vue'
-import OutputComponent from '@/components/OutputComponent.vue'
-import AiOutputComponent from '@/components/AiOutputComponent.vue'
+import GlassCarouselBackground from '@/components/GlassCarouselBackground.vue'
+import SidebarLayout from '@/components/SidebarLayout.vue'
+import MainContentLayout from '@/components/MainContentLayout.vue'
 
 
 
@@ -49,48 +48,11 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="home-background">
-    <div class="glass-carousel">
-      <div class="carousel-track">
-        <div class="item item-1">✂︎</div>
-        <div class="item item-2">✂︎</div>
-        <div class="item item-3">✂︎</div>
-        <div class="item item-4">✂︎</div>
-        <div class="item item-5">✂︎</div>
-        <div class="item item-6">✂︎</div>
-      </div>
-    </div>
-    <div class="glass-film" aria-hidden="true"></div>
-  </div>
+  <GlassCarouselBackground />
 
   <div class="chat-interface">
-    <aside class="sidebar">
-      <LateralBar />
-    </aside>
-    
-    <main class="main-content">
-      <div class="welcome-section">
-        <h1 class="welcome-title">
-          Hello to<span class="brand-name">Haircut!</span>
-        </h1>
-      </div>
-
-      <div class="profile-icon-container">
-        <div class="profile-icon">
-          <i class="mdi mdi-account-circle"></i>
-        </div>
-      </div>
-
-      <div class="photo-container">
-        <PhotoComponent />
-      </div>
-      <div class="output-container">
-        <OutputComponent />
-      </div>
-      <div class="ai-ouput-container">
-        <AiOutputComponent />
-      </div>
-    </main>
+    <SidebarLayout />
+    <MainContentLayout />
   </div>
 </template>
 
@@ -205,21 +167,6 @@ onMounted(() => {
   z-index: 20;
 }
 
-.profile-icon {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.profile-icon i {
-  font-size: 35px;
-  color: #00417f;
-  cursor: pointer;
-}
-
 .photo-container {
   position: fixed;
   bottom: 0;
@@ -291,8 +238,8 @@ onMounted(() => {
   font-weight: 700;
   background: linear-gradient(135deg, #3182ce 0%, #63b3ed 100%);
   
-  background-clip: text;          /* padrão */
-  -webkit-background-clip: text;  /* chrome/safari */
+  background-clip: text;          
+  -webkit-background-clip: text;  
 
   color: transparent;          
   -webkit-text-fill-color: transparent;
