@@ -47,7 +47,7 @@ async function sendPhotos() {
 
       </div>
       <div v-for="msg in messages" :key="msg.id" class="message" :class="msg.type">
-        <AiOutputComponent :message="msg.content" :type="msg.type" />
+        <AiOutputComponent :message="msg.content" :type="msg.type" :timestamp="msg.id" />
       </div>
     </div>
     <div class="input-container">

@@ -1,4 +1,6 @@
 <script setup>
+import { computed } from 'vue'
+
 const props = defineProps({
   message: {
     type: String,
@@ -7,10 +9,22 @@ const props = defineProps({
   type: {
     type: String,
     default: 'ai'
+  },
+  timestamp: {
+    type: Number,
+    default: null
   }
 })
 
 const displayMessage = props.message
+
+const formattedTime = computed(() => {
+  if (!props.timestamp) return ''
+  return new Date(props.timestamp).toLocaleTimeString('pt-BR', {
+    hour: '2-digit',
+    minute: '2-digit'
+  })
+})
 </script>
 
 
@@ -22,6 +36,7 @@ const displayMessage = props.message
           {{ displayMessage }}
         </div>
       </Transition>
+      <div class="timestamp" v-if="formattedTime">{{ formattedTime }}</div>
     </div>
   </div>
 </template>
@@ -46,7 +61,7 @@ const displayMessage = props.message
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
-  box-shadow: none;
+  box-shadow: 0 8px 10px rgba(0, 0, 0, 0.1);
 }
 .output.ai {
   background: rgba(255, 255, 255, 0.95);
@@ -54,13 +69,22 @@ const displayMessage = props.message
   border: 1px solid rgba(148, 163, 184, 0.12);
 }
 .output.user {
-  background: #2563eb;
+  background: linear-gradient(135deg, #3182ce 0%, #2c5282 100%);
   color: #ffffff;
 }
 .output-content {
   white-space: pre-wrap;
   line-height: 1.7;
   font-size: 1rem;
+}
+
+.timestamp {
+  font-size: 0.75rem;
+  opacity: 0.7;
+  margin-top: 0.5rem;
+  text-align: right;
+  top: 10px;
+  left: 10px
 }
 
 </style>
