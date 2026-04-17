@@ -14,6 +14,9 @@ const displayMessage = computed(() => {
 const hasContent = computed(() => {
   return promptStore.loading || promptStore.error || promptStore.response
 })
+
+
+
 </script>
 
 <template>
@@ -26,6 +29,7 @@ const hasContent = computed(() => {
       <Transition name="fade-slide">
         <div v-if="hasContent" class="output-content">
           {{ displayMessage }}
+
         </div>
       </Transition>
     </div>
@@ -69,6 +73,7 @@ const hasContent = computed(() => {
   width: 100%;
   max-width: 360px;
   border-radius: 12px;
+
 }
 
 .output {
@@ -81,6 +86,8 @@ const hasContent = computed(() => {
   border: 1px solid rgba(0, 0, 0, 0.02);
   box-shadow: 0px 20px 24px rgba(0, 0, 0, 0.06);
   transition: all 0.25s ease;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
 }
 
 .output.loading {

@@ -5,15 +5,6 @@
 </template>
 
 <script setup>
-import { useThemeStore } from '@/stores/theme'
-import { onMounted } from 'vue'
-
-const themeStore = useThemeStore()
-
-onMounted(() => {
-  // Aplicar tema ao carregar
-  themeStore.isDark
-})
 </script>
 
 <style>
@@ -28,7 +19,7 @@ onMounted(() => {
 }
 
 html[data-theme='dark'] {
-  --bg-primary: #121212;
+  --bg-primary: #121212;  
   --bg-secondary: #1e1e1e;
   --text-primary: #e0e0e0;
   --text-secondary: #b0b0b0;

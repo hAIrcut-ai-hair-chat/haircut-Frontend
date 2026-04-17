@@ -16,6 +16,7 @@
     "dotenv": "^16.4.5",
     "pinia": "^2.3.1",
     "pinia-plugin-persistedstate": "^3.2.3",
+    "vite-plugin-pwa": "^1.2.0",
     "vue": "^3.4.33",
     "vue-router": "4.4.0"
   },

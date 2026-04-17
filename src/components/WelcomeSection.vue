@@ -6,9 +6,7 @@
   </div>
 </template>
 
-<script setup>
-// Empty setup - component is presentational only
-</script>
+
 
 <style scoped>
 .welcome-section {

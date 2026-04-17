@@ -1,11 +1,9 @@
 <script setup>
-import { ref, computed } from "vue"
+import { computed } from "vue"
 import { usePromptStore } from "../stores/prompt"
 import { useChatStore } from "../stores/chat"
 import AiOutputComponent from "./AiOutputComponent.vue"
 
-const selectedFile = ref(null)
-const previewUrl = ref(null)
 const promptStore = usePromptStore()
 const chatStore = useChatStore()
 
@@ -13,16 +11,11 @@ const messages = computed(() => chatStore.messages)
 const isLoading = computed(() => promptStore.loading)
 
 function handleFile(event) {
-  const file = event.target.files[0]
-  if (!file) return
-
-  selectedFile.value = file
-  previewUrl.value = URL.createObjectURL(file)
+  promptStore.handleFile(event)
 }
 
 function removeImage() {
-  selectedFile.value = null
-  previewUrl.value = null
+  promptStore.removeImage()
 }
 
 async function sendPhotos() {
@@ -53,15 +46,15 @@ async function sendPhotos() {
     <div class="input-container">
       <div class="input-wrapper">
 
-        <div v-if="previewUrl" class="image-inside">
-          <img :src="previewUrl" alt="preview" />
+        <div v-if="promptStore.previewUrl" class="image-inside">
+          <img :src="promptStore.previewUrl" alt="preview" />
           <button class="remove-btn" @click="removeImage">✕</button>
         </div>
 
         <input
           type="text"
           class="photo-input"
-          :class="{ 'has-image': previewUrl, 'loading': promptStore.loading }"
+          :class="{ 'has-image': promptStore.previewUrl, 'loading': promptStore.loading }"
           placeholder="Descreva o corte de cabelo desejado..."
           v-model="promptStore.prompt"
           @keyup.enter="sendPhotos"
@@ -138,7 +131,7 @@ async function sendPhotos() {
   min-height: 60px;
   padding: 1.1rem 170px 1.1rem 18px;
   font-size: 1.05rem;
-  border-radius: 24px;
+  border-radius: 16px;
   background: rgba(255, 255, 255, 0.92);
   border: 1px solid rgba(148, 163, 184, 0.18);
   color: #0f172a;

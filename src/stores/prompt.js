@@ -16,6 +16,8 @@ export const usePromptStore = defineStore('prompt', () => {
   const image_url = ref('')
   const created_at = ref('')
   const feedback = ref('')
+  const selectedFile = ref(null)
+  const previewUrl = ref(null)
 
   const sendPrompt = async () => {
     console.log('[sendPrompt] Enviando prompt:', prompt.value)
@@ -36,17 +38,25 @@ export const usePromptStore = defineStore('prompt', () => {
     image_url.value = ''
     feedback.value = null
 
-    const dataToSend = {
-      uuid: uuid.value,
-      author: author.value,
-      prompt: prompt.value,
-      image_url: image_url.value,
-      created_at: created_at.value,
-      feedback: feedback.value
+    // Preparar dados para envio, incluindo imagem se selecionada
+    const formData = new FormData()
+    formData.append('uuid', uuid.value)
+    formData.append('author', author.value)
+    formData.append('prompt', prompt.value)
+    formData.append('image_url', image_url.value)
+    formData.append('created_at', created_at.value)
+    formData.append('feedback', feedback.value)
+
+    if (selectedFile.value) {
+      formData.append('image', selectedFile.value)
     }
 
     try {
-      const res = await axios.post(api_url, dataToSend)
+      const res = await axios.post(api_url, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
 
       console.log('[sendPrompt] Resposta recebida:', res.data)
 
@@ -74,6 +84,21 @@ export const usePromptStore = defineStore('prompt', () => {
     }
   }
 
+  const handleFile = (event) => {
+    const file = event.target.files[0]
+    if (!file) return
+
+    selectedFile.value = file
+    previewUrl.value = URL.createObjectURL(file)
+    image_url.value = previewUrl.value
+  }
+
+  const removeImage = () => {
+    selectedFile.value = null
+    previewUrl.value = null
+    image_url.value = ''
+  }
+
   return {
     prompt,
     response,
@@ -84,6 +109,10 @@ export const usePromptStore = defineStore('prompt', () => {
     image_url,
     created_at,
     feedback,
-    sendPrompt
+    selectedFile,
+    previewUrl,
+    sendPrompt,
+    handleFile,
+    removeImage
   }
 })
