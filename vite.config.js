@@ -9,26 +9,33 @@ export default defineConfig({
     vue(),
     VitePWA({
       registerType: 'autoUpdate',
+      includeAssets: ['favicon.ico', 'hair-dryer.svg', 'hair-dryer-outline.svg'],
       devOptions: {
-        enabled: true 
+        enabled: true
+      },
+      workbox: {
+        cleanupOutdatedCaches: true,
+        globPatterns: ['**/*.{js,css,html,ico,svg,webmanifest,json}']
       },
       manifest: {
-        name: 'Meu App',
-        short_name: 'App',
-        description: "Meu aplicativo PWA",
+        name: 'Haircut',
+        short_name: 'Haircut',
+        description: 'Aplicativo PWA para explorar cortes de cabelo e salvar ideias.',
         theme_color: '#000000',
         background_color: '#ffffff',
         display: 'standalone',
+        scope: '/',
+        start_url: '/',
         icons: [
           {
-            src: '/icon-192.png',
+            src: '/hair-dryer.svg',
             sizes: '192x192',
-            type: 'image/png'
+            type: 'image/svg+xml'
           },
           {
-            src: '/icon-512.png',
+            src: '/hair-dryer.svg',
             sizes: '512x512',
-            type: 'image/png'
+            type: 'image/svg+xml'
           }
         ]
       }

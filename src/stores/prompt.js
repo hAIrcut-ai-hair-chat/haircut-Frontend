@@ -4,7 +4,7 @@ import axios from 'axios'
 import { useAuthStore } from './auth.js'
 import getPromptMessage from '@/composables/getPromptMessage.js'
 
-const api_url = "http://127.0.0.1:19003/api/ai/"
+const api_url = import.meta.env.BACKEND_URL + '/api/ai/'
 
 export const usePromptStore = defineStore('prompt', () => {
   const prompt = ref('')

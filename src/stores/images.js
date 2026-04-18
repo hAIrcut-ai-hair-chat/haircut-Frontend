@@ -2,7 +2,7 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import axios from 'axios'
 
-const API_URL = 'http://127.0.0.1:19003/api/feed/'
+const API_URL = import.meta.env.BACKEND_URL + '/api/feed/'
 
 export const useImagesStore = defineStore('images', () => {
   const posts = ref([])
