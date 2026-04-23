@@ -93,12 +93,12 @@ onMounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 150px;
-  height: 150px;
+  width: clamp(80px, 12vw, 150px);
+  height: clamp(80px, 12vw, 150px);
   border-radius: 28px;
   color: white;
   text-shadow: 0 4px 14px rgba(0,0,0,0.4);
-  font-size: 3rem;
+  font-size: clamp(2rem, 4vw, 3rem);
   box-shadow: inset 0 0 0 1px rgba(255,255,255,0.25), 0 25px 50px rgba(0,0,0,0.35);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
@@ -131,7 +131,7 @@ onMounted(() => {
 
 .chat-interface {
   display: grid;
-  grid-template-columns: 200px 1fr;
+  grid-template-columns: minmax(60px, 80px) 1fr;
   min-height: 100vh;
   background-color: transparent;
   position: relative;

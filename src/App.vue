@@ -32,10 +32,12 @@ html, body {
   margin: 0;
   padding: 0;
   min-height: 100%;
+  min-height: 100dvh;
   font-family: 'Segoe UI', Roboto, sans-serif;
   background: var(--bg-secondary);
   overflow-x: hidden;
   transition: background-color 0.3s ease, color 0.3s ease;
+  -webkit-tap-highlight-color: transparent;
 }
 
 #app, main {
@@ -71,12 +73,12 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 180px;
-  height: 180px;
+  width: clamp(100px, 20vw, 180px);
+  height: clamp(100px, 20vw, 180px);
   border-radius: 30px;
   color: white;
   text-shadow: 0 4px 14px rgba(0,0,0,0.4);
-  font-size: 4rem;
+  font-size: clamp(2rem, 5vw, 4rem);
   box-shadow: inset 0 0 0 1px rgba(255,255,255,0.25), 0 25px 50px rgba(0,0,0,0.35);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);

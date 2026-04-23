@@ -105,9 +105,9 @@ const closeLightbox = () => lightboxImage.value = null
 }
 .main-content {
   flex: 1;
-  max-width: 1200px;
+  max-width: 100%;
   margin: 0 auto;
-  padding: 1rem;
+  padding: clamp(0.75rem, 2vw, 1rem);
   transition: margin-right 0.3s ease;
 }
 :deep(.lateral-bar.expanded) ~ .main-content {
@@ -115,8 +115,8 @@ const closeLightbox = () => lightboxImage.value = null
 }
 .empty-explore, .loading-state, .error-state {
   text-align: center;
-  padding: 3rem 1rem;
-  font-size: 1.1rem;
+  padding: clamp(2rem, 5vw, 3rem) clamp(0.75rem, 2vw, 1rem);
+  font-size: clamp(1rem, 2vw, 1.1rem);
   background: var(--bg-primary);
   border-radius: 12px;
   margin: 2rem 0;
@@ -129,20 +129,20 @@ const closeLightbox = () => lightboxImage.value = null
 }
 .retry-btn {
   margin-top: 1rem;
-  padding: 0.6rem 1.2rem;
+  padding: clamp(0.4rem, 2vw, 0.6rem) clamp(0.8rem, 3vw, 1.2rem);
   background: var(--text-primary);
   color: var(--bg-primary);
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: clamp(0.85rem, 2vw, 1rem);
   transition: background-color 0.2s ease;
 }
 .retry-btn:hover { background: var(--text-secondary); }
 .explore-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(clamp(150px, 20vw, 250px), 1fr));
+  gap: clamp(0.5rem, 2vw, 1rem);
   margin-bottom: 2rem;
 }
 .grid-item {

@@ -158,26 +158,28 @@ const handleImageError = (event) => {
 <style scoped>
 .drive-container {
   display: grid;
-  grid-template-columns: 1fr 6fr;
+  grid-template-columns: minmax(60px, 1fr) 6fr;
   height: 100vh;
   background: #ffffff;
   font-family: 'Inter', sans-serif;
 }
 
 .main-content {
-  padding: 30px;
+  padding: clamp(1rem, 3vw, 30px);
   overflow-y: auto;
 }
 
 .header {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
+  gap: clamp(0.5rem, 2vw, 1rem);
   margin-bottom: 25px;
 }
 
 .breadcrumbs {
-  font-size: 1.4rem;
+  font-size: clamp(1.1rem, 3vw, 1.4rem);
   font-weight: 600;
   color: #1e1e1e;
 }
@@ -189,10 +191,10 @@ const handleImageError = (event) => {
 }
 
 .search-box {
-  padding: 10px 16px;
+  padding: clamp(0.6rem, 2vw, 10px) clamp(1rem, 2vw, 16px);
   border-radius: 25px;
   border: 1px solid #ddd;
-  width: 260px;
+  width: clamp(200px, 80vw, 260px);
   transition: 0.2s;
 }
 

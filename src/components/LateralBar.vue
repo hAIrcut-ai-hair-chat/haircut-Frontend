@@ -94,12 +94,12 @@ a {
   top: 0;
   left: 0;
   height: 100vh;
-  width: 80px;
+  width: clamp(60px, 15vw, 80px);
   background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 20px 0;
+  padding: clamp(12px, 2vw, 20px) 0;
   box-shadow: 4px 0 20px rgba(0, 0, 0, 0.25);
   transition: all 0.3s ease;
   z-index: 1000;
@@ -108,7 +108,7 @@ a {
 }
 
 .lateral-bar.expanded {
-  width: 240px;
+  width: clamp(100px, 25vw, 240px);
 }
 
 .top-section {
@@ -120,9 +120,9 @@ a {
 .haircut-symbol {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 0 20px 20px;
-  margin-bottom: 24px;
+  gap: clamp(8px, 2vw, 14px);
+  padding: 0 clamp(12px, 2vw, 20px) clamp(12px, 2vw, 20px);
+  margin-bottom: clamp(16px, 3vw, 24px);
   cursor: pointer;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -151,15 +151,15 @@ a {
 .buttons {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding: 0 14px;
+  gap: clamp(6px, 1vw, 10px);
+  padding: 0 clamp(10px, 2vw, 14px);
 }
 
 .button {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 12px 14px;
+  gap: clamp(8px, 2vw, 14px);
+  padding: clamp(10px, 2vw, 12px) clamp(10px, 2vw, 14px);
   background: rgba(255, 255, 255, 0.05);
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -167,6 +167,7 @@ a {
   cursor: pointer;
   transition: all 0.25s ease;
   position: relative;
+  font-size: clamp(0.8rem, 2vw, 0.95rem);
 }
 
 .button:hover {

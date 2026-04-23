@@ -1,27 +1,32 @@
-import { createApp } from 'vue';
-import { createPinia } from 'pinia';
-import { createPersistedState } from 'pinia-plugin-persistedstate';
+import { createApp } from 'vue'
+import { createPinia } from 'pinia'
+import { createPersistedState } from 'pinia-plugin-persistedstate'
 import '@mdi/font/css/materialdesignicons.min.css'
 import { registerSW } from 'virtual:pwa-register'
 
+import App from './App.vue'
+import router from './router'
+import './plugins/axios'
 
-import App from './App.vue';
-import router from './router';
-import './plugins/axios';
+import './assets/main.css'
+import './assets/responsive.css'
 
-import './assets/main.css';
+registerSW({
+  immediate: true,
+  onRegistered() {
+    console.log('PWA registrado')
+  },
+  onRegisterError(error) {
+    console.error('Erro no PWA:', error)
+  }
+})
 
-registerSW({ immediate: true })
+const app = createApp(App)
 
-const app = createApp(App);
+const pinia = createPinia()
+pinia.use(createPersistedState())
 
-const pinia = createPinia();
-pinia.use(createPersistedState());
+app.use(pinia)
+app.use(router)
 
-app.use(pinia);
-app.use(router);
-
-
-
-
-app.mount('#app');
+app.mount('#app')

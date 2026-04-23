@@ -1,0 +1,288 @@
+/* RESPONSIVE DESIGN UTILITIES - Mobile First Approach */
+
+/* ============================================
+   DESKTOP IMPROVEMENTS (1200px+)
+   ============================================ */
+@media (min-width: 1200px) {
+  :root {
+    --section-gap: 160px;
+  }
+}
+
+/* ============================================
+   TABLET (768px - 1023px)
+   ============================================ */
+@media (max-width: 1024px) {
+  html, body {
+    font-size: 14px;
+  }
+
+  button {
+    font-size: clamp(0.85rem, 2vw, 1rem);
+  }
+
+  input[type="text"] {
+    font-size: clamp(0.9rem, 2vw, 1rem);
+  }
+}
+
+@media (max-width: 768px) {
+  html, body {
+    font-size: 13px;
+  }
+
+  /* Layout Utilities */
+  .col-8, .col-6, .col-4, .col-10, .col-2 {
+    min-width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Responsive Row */
+  .row {
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin-bottom: clamp(12px, 3vw, 20px);
+    gap: clamp(8px, 2vw, 12px);
+  }
+
+  /* Forms */
+  input[type="text"] {
+    width: 100%;
+  }
+
+  button {
+    padding: clamp(8px, 2vw, 10px) clamp(14px, 3vw, 20px);
+    font-size: clamp(0.8rem, 2vw, 0.95rem);
+    width: auto;
+  }
+
+  /* Typography */
+  h1 {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+  }
+
+  h2 {
+    font-size: clamp(1.25rem, 3.5vw, 1.75rem);
+  }
+
+  h3 {
+    font-size: clamp(1.1rem, 3vw, 1.5rem);
+  }
+
+  p {
+    font-size: clamp(0.9rem, 2vw, 1rem);
+    line-height: 1.4;
+  }
+
+  /* Gap Utility */
+  .gap-20 {
+    gap: clamp(8px, 2vw, 15px);
+  }
+
+  /* Padding */
+  .px-lg {
+    padding-left: clamp(12px, 3vw, 24px) !important;
+    padding-right: clamp(12px, 3vw, 24px) !important;
+  }
+
+  .py-lg {
+    padding-top: clamp(12px, 3vw, 24px) !important;
+    padding-bottom: clamp(12px, 3vw, 24px) !important;
+  }
+
+  /* Scroll Behavior */
+  body {
+    scroll-behavior: smooth;
+  }
+}
+
+/* ============================================
+   MOBILE (480px - 767px)
+   ============================================ */
+@media (max-width: 767px) {
+  html, body {
+    font-size: 12px;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  * {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+  }
+
+  /* Ensure touch targets are at least 44px */
+  button,
+  a,
+  input[type="checkbox"],
+  input[type="radio"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  textarea,
+  select {
+    width: 100% !important;
+    padding: clamp(10px, 2vw, 14px) !important;
+    font-size: 16px; /* Prevents zoom on iOS */
+    border-radius: 8px;
+  }
+
+  button {
+    width: auto;
+    padding: clamp(10px, 2.5vw, 12px) clamp(16px, 4vw, 20px);
+    font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+    touch-action: manipulation;
+  }
+
+  /* Typography for Mobile */
+  h1 {
+    font-size: clamp(1.25rem, 5vw, 1.75rem);
+    line-height: 1.2;
+    margin-bottom: clamp(8px, 2vw, 12px);
+  }
+
+  h2 {
+    font-size: clamp(1rem, 4vw, 1.5rem);
+    line-height: 1.2;
+    margin-bottom: clamp(6px, 2vw, 10px);
+  }
+
+  h3 {
+    font-size: clamp(0.95rem, 3.5vw, 1.25rem);
+    margin-bottom: clamp(6px, 2vw, 8px);
+  }
+
+  p {
+    font-size: clamp(0.85rem, 2.5vw, 0.95rem);
+    line-height: 1.5;
+    margin-bottom: clamp(8px, 2vw, 12px);
+  }
+
+  /* Spacing */
+  .gap-20 {
+    gap: clamp(6px, 2.5vw, 10px);
+  }
+
+  .mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Full width elements */
+  .full-width {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+  }
+
+  /* Hide overflow to prevent scrollbar jump */
+  body {
+    overflow-x: hidden;
+  }
+}
+
+/* ============================================
+   SMALL MOBILE (< 480px)
+   ============================================ */
+@media (max-width: 480px) {
+  html, body {
+    font-size: 11px;
+  }
+
+  /* Aggressive responsive adjustments */
+  input[type="text"],
+  input[type="email"],
+  button {
+    font-size: 16px !important; /* Prevents zoom on iOS */
+  }
+
+  button {
+    padding: clamp(8px, 2vw, 10px) clamp(12px, 3vw, 16px);
+    min-width: 44px;
+  }
+
+  h1 {
+    font-size: clamp(1rem, 6vw, 1.5rem);
+  }
+
+  h2 {
+    font-size: clamp(0.95rem, 5vw, 1.25rem);
+  }
+
+  /* No horizontal scroll */
+  body {
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  /* Better spacing for touch */
+  .gap-20 {
+    gap: clamp(4px, 2vw, 8px);
+  }
+
+  /* Flex stack everything */
+  .row {
+    flex-direction: column;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY & RESPONSIVE BEHAVIORS
+   ============================================ */
+
+/* Prefers reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: more) {
+  button {
+    border: 2px solid currentColor;
+  }
+
+  input[type="text"] {
+    border-width: 2px;
+  }
+}
+
+/* Dark mode preference */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    color-scheme: dark;
+  }
+}
+
+/* Light mode preference */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) {
+    color-scheme: light;
+  }
+}
+
+/* ============================================
+   LANDSCAPE ORIENTATION
+   ============================================ */
+@media (max-height: 500px) and (orientation: landscape) {
+  input[type="text"],
+  button {
+    padding: clamp(4px, 1vh, 8px) clamp(8px, 2vw, 12px);
+    font-size: 13px;
+  }
+
+  h1, h2, h3 {
+    margin-bottom: clamp(4px, 1vw, 8px);
+  }
+}

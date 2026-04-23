@@ -65,7 +65,7 @@ const toggleDropdown = () => {
 .navbar {
   background-color: #343a40;
   color: #fff;
-  padding: 15px 20px;
+  padding: clamp(10px, 2vw, 15px) clamp(12px, 3vw, 20px);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -73,7 +73,8 @@ nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
+  flex-wrap: wrap;
+  gap: clamp(8px, 2vw, 15px);
 
 .nav-left {
   display: flex;
@@ -83,12 +84,13 @@ nav {
 .nav-left a {
   color: #fff;
   text-decoration: none;
-  margin-right: 20px;
+  margin-right: clamp(8px, 2vw, 20px);
   font-weight: bold;
+  font-size: clamp(0.85rem, 2vw, 1rem);
 }
 
 .logo {
-  font-size: 1.5rem;
+  font-size: clamp(1.2rem, 3vw, 1.5rem);
 }
 
 .nav-right {
@@ -189,6 +191,7 @@ nav {
   .user-photo-small {
     width: 35px;
     height: 35px;
+    }
   }
 }
 </style>

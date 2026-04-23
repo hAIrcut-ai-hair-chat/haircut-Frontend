@@ -27,14 +27,14 @@ import PhotoComponent from '@/components/PhotoComponent.vue'
   min-height: 100vh;
   background: #f8fafc;
   position: relative;
-  padding: 20px;
+  padding: clamp(1rem, 3vw, 20px);
   overflow: hidden;
 }
 
 .profile-icon-container {
   position: absolute;
-  top: 30px;
-  right: 30px;
+  top: clamp(20px, 3vw, 30px);
+  right: clamp(20px, 3vw, 30px);
   z-index: 20;
 }
 
@@ -44,7 +44,7 @@ import PhotoComponent from '@/components/PhotoComponent.vue'
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 80px;
+  margin-top: clamp(50px, 10vw, 80px);
   z-index: 5;
 }
 
