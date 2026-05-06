@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_BASE_URL,
+  baseURL: import.meta.env.VITE_BACKEND_TESTE_URL,
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
@@ -9,11 +9,9 @@ const api = axios.create({
   },
 })
 
-
-
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('psg_auth_token');
+    const token = localStorage.getItem('auth_token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }

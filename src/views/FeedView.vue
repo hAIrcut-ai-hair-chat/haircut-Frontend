@@ -211,7 +211,6 @@ const closeLightbox = () => lightboxImage.value = null
   font-size: 0.85rem;
   opacity: 0.9;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }

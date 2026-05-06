@@ -1,6 +1,6 @@
 <script setup>
-import { computed } from "vue"
-import { usePromptStore } from "../stores/prompt"
+import { computed, ref, onMounted, onBeforeUnmount } from "vue"
+import { usePromptStore }  from "../stores/prompt"
 import { useChatStore } from "../stores/chat"
 import AiOutputComponent from "./AiOutputComponent.vue"
 
@@ -8,28 +8,86 @@ const promptStore = usePromptStore()
 const chatStore = useChatStore()
 
 const messages = computed(() => chatStore.messages)
-const isLoading = computed(() => promptStore.loading)
 
-function handleFile(event) {
-  promptStore.handleFile(event)
-}
+const socket = ref(null)
+const roomId = crypto.randomUUID() 
 
-function removeImage() {
-  promptStore.removeImage()
-}
+onMounted(() => {
+  socket.value = new WebSocket(
+    `ws://127.0.0.1:8000/ws/room/9qq04q--qr8`
+  )
 
-async function sendPhotos() {
+  socket.value.onopen = () => {
+    console.log("🟢 WebSocket conectado")
+  }
+
+  socket.value.onmessage = (event) => {
+    let data = {}
+
+    try {
+      data = JSON.parse(event.data)
+    } catch (e) {
+      console.error("JSON inválido:", event.data)
+      return
+    }
+
+    const msg = data.response || data.resposta || data.msg || ""
+
+    if (msg) {
+      chatStore.addMessage("ai", msg)
+    }
+
+    if (data.done) {
+      promptStore.loading = false
+    }
+  }
+
+  socket.value.onerror = () => {
+    console.error("❌ erro no websocket")
+    promptStore.loading = false
+  }
+
+  socket.value.onclose = () => {
+    console.log("🔴 WebSocket fechado")
+    promptStore.loading = false
+  }
+})
+
+onBeforeUnmount(() => {
+  socket.value?.close()
+})
+
+function sendPhotos() {
   if (!promptStore.prompt.trim()) {
     alert("Por favor, descreva o corte de cabelo desejado")
     return
   }
 
-  chatStore.addMessage('user', promptStore.prompt)
-  await promptStore.sendPrompt()
-  if (promptStore.response) {
-    chatStore.addMessage('ai', promptStore.response)
+  if (!socket.value || socket.value.readyState !== 1) {
+    alert("WebSocket não conectado")
+    return
   }
-  promptStore.prompt = ''
+
+  chatStore.addMessage("user", promptStore.prompt)
+
+  promptStore.loading = true
+
+  socket.value.send(
+    JSON.stringify({
+      prompt: promptStore.prompt,
+      room: roomId,
+    })
+  )
+
+  promptStore.prompt = ""
+}
+
+function handleFile(e) {
+  promptStore.handleFile(e)
+}
+
+function removeImage() {
+  promptStore.removeImage()
 }
 </script>
 
@@ -104,33 +162,35 @@ async function sendPhotos() {
   width: 100%;
   max-width: 920px;
   margin: 0 auto;
-  padding: 2rem 1.25rem 1rem;
+  padding: clamp(1rem, 5vw, 2rem) clamp(0.75rem, 3vw, 1.25rem) clamp(1rem, 5vw, 1rem);
   gap: 1.5rem;
   background: transparent;
 }
 
 .input-container {
   width: 100%;
-  max-width: 920px;
+  max-width: 100%;
   margin-top: 0;
   position: relative;
   background: transparent;
+  padding: 0 clamp(0.5rem, 2vw, 1rem);
 }
 
 .input-wrapper {
   position: fixed;
-  bottom: 100px;
+  bottom: clamp(80px, 15vh, 100px);
   left: 50%;
   transform: translateX(-50%);
-  width: 100%;
+  width: calc(100% - clamp(1rem, 4vw, 2rem));
   max-width: 920px;
+  padding: 0 clamp(0.5rem, 2vw, 1rem);
 }
 
 .photo-input {
-  width: 80%;
-  min-height: 60px;
-  padding: 1.1rem 170px 1.1rem 18px;
-  font-size: 1.05rem;
+  width: 100%;
+  min-height: clamp(48px, 12vw, 60px);
+  padding: clamp(0.75rem, 2vw, 1.1rem) clamp(100px, 20vw, 170px) clamp(0.75rem, 2vw, 1.1rem) clamp(0.75rem, 2vw, 1.1rem);
+  font-size: clamp(0.9rem, 2vw, 1.05rem);
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.92);
   border: 1px solid rgba(148, 163, 184, 0.18);
@@ -138,7 +198,6 @@ async function sendPhotos() {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   transition: all 0.25s ease, padding-left 0.25s ease;
   position: relative;
-  margin-left: 185px;
 }
 
 .photo-input:focus {
@@ -148,22 +207,24 @@ async function sendPhotos() {
 }
 
 .photo-input.has-image {
-  padding-left: 70px;;
+  padding-left: clamp(50px, 12vw, 70px);
 }
 
 /* BOTÕES */
 .input-actions {
   position: absolute;
-  right: 10px;
+  right: clamp(8px, 2vw, 10px);
   top: 50%;
   transform: translateY(-50%);
   display: flex;
   gap: 6px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .action-btn {
-  height: 40px;
-  padding: 0 1rem;
+  height: clamp(36px, 8vw, 40px);
+  padding: 0 clamp(0.5rem, 2vw, 1rem);
   border: none;
   border-radius: 10px;
   cursor: pointer;
@@ -172,7 +233,7 @@ async function sendPhotos() {
   gap: 0.4rem;
   font-weight: 500;
   transition: all 0.2s ease;
-  font-size: 0.9rem;
+  font-size: clamp(0.75rem, 2vw, 0.9rem);
 }
 
 .upload-btn {
@@ -200,16 +261,15 @@ async function sendPhotos() {
 
 .image-inside {
   position: absolute;
-  left: 15px;
+  left: clamp(8px, 2vw, 15px);
   top: 50%;
   transform: translateY(-50%);
-  width: 40px;
-  height: 40px;
+  width: clamp(32px, 8vw, 40px);
+  height: clamp(32px, 8vw, 40px);
   border-radius: 8px;
   overflow: hidden;
   z-index: 3;
   box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-  margin-left: 185px;
 }
 
 .image-inside img {
@@ -235,12 +295,12 @@ async function sendPhotos() {
 /* MENSAGENS */
 .error-message {
   margin-top: 1rem;
-  padding: 12px 16px;
+  padding: clamp(8px, 2vw, 12px) clamp(12px, 3vw, 16px);
   background: rgba(239, 68, 68, 0.1);
   border: 1px solid rgba(239, 68, 68, 0.3);
   border-radius: 8px;
   color: #ef4444;
-  font-size: 0.9rem;
+  font-size: clamp(0.85rem, 2vw, 0.9rem);
   display: flex;
   align-items: center;
   gap: 8px;
@@ -289,9 +349,9 @@ async function sendPhotos() {
 .chat-messages {
   width: 100%;
   max-width: 920px;
-  max-height: 68vh;
+  max-height: clamp(300px, 60vh, 68vh);
   overflow-y: auto;
-  padding: 18px;
+  padding: clamp(12px, 3vw, 18px);
   background: transparent;
   border-radius: 24px;
   box-shadow: none;

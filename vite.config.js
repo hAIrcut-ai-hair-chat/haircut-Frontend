@@ -24,7 +24,6 @@ export default defineConfig({
 
         globPatterns: ['**/*.{js,css,html,ico,svg,png,webmanifest,json}'],
 
-        // 🔥 ESSENCIAL pro seu backend no Render
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/.*onrender\.com/,
