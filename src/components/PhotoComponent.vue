@@ -1,6 +1,6 @@
 <script setup>
-import { computed, ref, onMounted, onBeforeUnmount } from "vue"
-import { usePromptStore }  from "../stores/prompt"
+import { computed, onMounted, onBeforeUnmount } from "vue"
+import { usePromptStore } from "@/stores/prompt"
 import { useChatStore } from "../stores/chat"
 import AiOutputComponent from "./AiOutputComponent.vue"
 
@@ -9,19 +9,18 @@ const chatStore = useChatStore()
 
 const messages = computed(() => chatStore.messages)
 
-const socket = ref(null)
-const roomId = crypto.randomUUID() 
+const roomId = crypto.randomUUID()
 
-onMounted(() => {
-  socket.value = new WebSocket(
-    `ws://127.0.0.1:8000/ws/room/9qq04q--qr8`
-  )
+let socket = null
 
-  socket.value.onopen = () => {
-    console.log("🟢 WebSocket conectado")
+function connectWebSocket() {
+  socket = new WebSocket(`ws://127.0.0.1:19003/ws/room/?room=${roomId}`)
+
+  socket.onopen = () => {
+    console.log("✅ WebSocket conectado")
   }
 
-  socket.value.onmessage = (event) => {
+  socket.onmessage = (event) => {
     let data = {}
 
     try {
@@ -31,10 +30,21 @@ onMounted(() => {
       return
     }
 
-    const msg = data.response || data.resposta || data.msg || ""
+    console.log("[WS] resposta:", data)
+
+    const msg =
+      data.response ||
+      data.resposta ||
+      data.message ||
+      data.msg ||
+      ""
 
     if (msg) {
       chatStore.addMessage("ai", msg)
+    }
+
+    if (data.image_url) {
+      promptStore.image_url = data.image_url
     }
 
     if (data.done) {
@@ -42,19 +52,39 @@ onMounted(() => {
     }
   }
 
-  socket.value.onerror = () => {
-    console.error("❌ erro no websocket")
-    promptStore.loading = false
+  socket.onerror = (err) => {
+    console.error("❌ WebSocket error:", err)
   }
 
-  socket.value.onclose = () => {
-    console.log("🔴 WebSocket fechado")
-    promptStore.loading = false
+  socket.onclose = () => {
+    console.log("🔌 WebSocket desconectado")
   }
+}
+
+function disconnectWebSocket() {
+  if (socket) {
+    socket.close()
+    socket = null
+  }
+}
+
+function sendWS(message) {
+  if (!socket || socket.readyState !== 1) return
+
+  socket.send(
+    JSON.stringify({
+      message,
+      room_id: roomId
+    })
+  )
+}
+
+onMounted(() => {
+  connectWebSocket()
 })
 
 onBeforeUnmount(() => {
-  socket.value?.close()
+  disconnectWebSocket()
 })
 
 function sendPhotos() {
@@ -63,21 +93,9 @@ function sendPhotos() {
     return
   }
 
-  if (!socket.value || socket.value.readyState !== 1) {
-    alert("WebSocket não conectado")
-    return
-  }
-
   chatStore.addMessage("user", promptStore.prompt)
 
-  promptStore.loading = true
-
-  socket.value.send(
-    JSON.stringify({
-      prompt: promptStore.prompt,
-      room: roomId,
-    })
-  )
+  sendWS(promptStore.prompt)
 
   promptStore.prompt = ""
 }
@@ -94,25 +112,52 @@ function removeImage() {
 <template>
   <div class="upload-section">
     <div class="chat-messages">
-      <div v-if="messages.length === 0" class="chat-empty">
+      <div
+        v-if="messages.length === 0"
+        class="chat-empty"
+      ></div>
 
-      </div>
-      <div v-for="msg in messages" :key="msg.id" class="message" :class="msg.type">
-        <AiOutputComponent :message="msg.content" :type="msg.type" :timestamp="msg.id" />
+      <div
+        v-for="msg in messages"
+        :key="msg.id"
+        class="message"
+        :class="msg.type"
+      >
+        <AiOutputComponent
+          :message="msg.content"
+          :type="msg.type"
+          :timestamp="msg.id"
+        />
       </div>
     </div>
+
     <div class="input-container">
       <div class="input-wrapper">
 
-        <div v-if="promptStore.previewUrl" class="image-inside">
-          <img :src="promptStore.previewUrl" alt="preview" />
-          <button class="remove-btn" @click="removeImage">✕</button>
+        <div
+          v-if="promptStore.previewUrl"
+          class="image-inside"
+        >
+          <img
+            :src="promptStore.previewUrl"
+            alt="preview"
+          />
+
+          <button
+            class="remove-btn"
+            @click="removeImage"
+          >
+            ✕
+          </button>
         </div>
 
         <input
           type="text"
           class="photo-input"
-          :class="{ 'has-image': promptStore.previewUrl, 'loading': promptStore.loading }"
+          :class="{
+            'has-image': promptStore.previewUrl,
+            'loading': promptStore.loading
+          }"
           placeholder="Descreva o corte de cabelo desejado..."
           v-model="promptStore.prompt"
           @keyup.enter="sendPhotos"
@@ -120,9 +165,15 @@ function removeImage() {
         />
 
         <div class="input-actions">
-          <label class="action-btn upload-btn" title="Upload de imagem">
+          <label
+            class="action-btn upload-btn"
+            title="Upload de imagem"
+          >
             <i class="mdi mdi-image-plus"></i>
-            <span class="btn-label">Upload</span>
+
+            <span class="btn-label">
+              Upload
+            </span>
 
             <input
               type="file"
@@ -138,20 +189,38 @@ function removeImage() {
             @click="sendPhotos"
             :disabled="promptStore.loading"
           >
-            <i :class="promptStore.loading ? 'mdi mdi-loading mdi-spin' : 'mdi mdi-send'"></i>
-            <span class="btn-label">{{ promptStore.loading ? "Enviando..." : "Enviar" }}</span>
+            <i
+              :class="
+                promptStore.loading
+                  ? 'mdi mdi-loading mdi-spin'
+                  : 'mdi mdi-send'
+              "
+            ></i>
+
+            <span class="btn-label">
+              {{
+                promptStore.loading
+                  ? "Enviando..."
+                  : "Enviar"
+              }}
+            </span>
           </button>
         </div>
 
       </div>
 
-      <div v-if="promptStore.error" class="error-message">
+      <div
+        v-if="promptStore.error"
+        class="error-message"
+      >
         <i class="mdi mdi-alert-circle"></i>
+
         {{ promptStore.error }}
       </div>
     </div>
   </div>
 </template>
+
 
 <style scoped>
 .upload-section {
@@ -382,4 +451,4 @@ function removeImage() {
   background: rgba(255, 255, 255, 0.96);
   color: #0f172a;
 }
-</style>
+</style>  
