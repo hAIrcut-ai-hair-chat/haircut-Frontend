@@ -1,90 +1,24 @@
+
 <script setup>
 import { computed, onMounted, onBeforeUnmount } from "vue"
 import { usePromptStore } from "@/stores/prompt"
 import { useChatStore } from "../stores/chat"
+import { useRoomSocketStore } from "@/stores/useRoomSocketStore"
+
 import AiOutputComponent from "./AiOutputComponent.vue"
 
 const promptStore = usePromptStore()
 const chatStore = useChatStore()
+const roomSocketStore = useRoomSocketStore()
 
 const messages = computed(() => chatStore.messages)
 
-const roomId = crypto.randomUUID()
-
-let socket = null
-
-function connectWebSocket() {
-  socket = new WebSocket(`ws://127.0.0.1:19003/ws/room/?room=${roomId}`)
-
-  socket.onopen = () => {
-    console.log("✅ WebSocket conectado")
-  }
-
-  socket.onmessage = (event) => {
-    let data = {}
-
-    try {
-      data = JSON.parse(event.data)
-    } catch (e) {
-      console.error("JSON inválido:", event.data)
-      return
-    }
-
-    console.log("[WS] resposta:", data)
-
-    const msg =
-      data.response ||
-      data.resposta ||
-      data.message ||
-      data.msg ||
-      ""
-
-    if (msg) {
-      chatStore.addMessage("ai", msg)
-    }
-
-    if (data.image_url) {
-      promptStore.image_url = data.image_url
-    }
-
-    if (data.done) {
-      promptStore.loading = false
-    }
-  }
-
-  socket.onerror = (err) => {
-    console.error("❌ WebSocket error:", err)
-  }
-
-  socket.onclose = () => {
-    console.log("🔌 WebSocket desconectado")
-  }
-}
-
-function disconnectWebSocket() {
-  if (socket) {
-    socket.close()
-    socket = null
-  }
-}
-
-function sendWS(message) {
-  if (!socket || socket.readyState !== 1) return
-
-  socket.send(
-    JSON.stringify({
-      message,
-      room_id: roomId
-    })
-  )
-}
-
 onMounted(() => {
-  connectWebSocket()
+  roomSocketStore.connect()
 })
 
 onBeforeUnmount(() => {
-  disconnectWebSocket()
+  roomSocketStore.disconnect()
 })
 
 function sendPhotos() {
@@ -95,7 +29,7 @@ function sendPhotos() {
 
   chatStore.addMessage("user", promptStore.prompt)
 
-  sendWS(promptStore.prompt)
+  roomSocketStore.sendMessage(promptStore.prompt)
 
   promptStore.prompt = ""
 }
@@ -108,7 +42,6 @@ function removeImage() {
   promptStore.removeImage()
 }
 </script>
-
 <template>
   <div class="upload-section">
     <div class="chat-messages">
