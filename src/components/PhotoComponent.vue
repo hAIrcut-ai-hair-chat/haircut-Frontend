@@ -1,20 +1,21 @@
-
 <script setup>
 import { computed, onMounted, onBeforeUnmount } from "vue"
 import { usePromptStore } from "@/stores/prompt"
-import { useChatStore } from "../stores/chat"
 import { useRoomSocketStore } from "@/stores/useRoomSocketStore"
-
 import AiOutputComponent from "./AiOutputComponent.vue"
 
 const promptStore = usePromptStore()
-const chatStore = useChatStore()
 const roomSocketStore = useRoomSocketStore()
 
-const messages = computed(() => chatStore.messages)
+const messages = computed(() => roomSocketStore.messages)
+
+const ROOM_ID = "123"  
 
 onMounted(() => {
-  roomSocketStore.connect()
+  const connected = roomSocketStore.connect(ROOM_ID)
+  if (!connected) {
+    promptStore.error = "Não foi possível conectar. Verifique se está logado."
+  }
 })
 
 onBeforeUnmount(() => {
@@ -27,10 +28,13 @@ function sendPhotos() {
     return
   }
 
-  chatStore.addMessage("user", promptStore.prompt)
+  roomSocketStore.messages.push({
+    id: Date.now(),
+    type: "user",
+    content: promptStore.prompt
+  })
 
   roomSocketStore.sendMessage(promptStore.prompt)
-
   promptStore.prompt = ""
 }
 
@@ -42,6 +46,7 @@ function removeImage() {
   promptStore.removeImage()
 }
 </script>
+
 <template>
   <div class="upload-section">
     <div class="chat-messages">
