@@ -27,8 +27,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   async function login(email, password) {
     try {
-      console.log('albert ruberval')
-      const response = await api.post('/token/', { email, password })
+       const response = await api.post('/token/', { email, password })
       const { access } = response.data
       if (!access) throw new Error('Token não retornado')
       

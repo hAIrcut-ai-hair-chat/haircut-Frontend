@@ -1,54 +1,31 @@
 <script setup>
-import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
-import { useAuthStore } from '@/stores/auth'
-import { getUsers } from '@/stores/getUsers'
+import { ref } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useRegisterStore } from '@/stores/register'
+import AlertComponent from '../components/AlertComponent.vue'
 
-const router = useRouter()
-const authStore = useAuthStore()
+
+const registerStore = useRegisterStore()
+
+const { loading, error } = storeToRefs(registerStore)
 
 const email = ref('')
 const password = ref('')
-const rememberMe = ref(false)
 
-const loadUsers = async () => {
-  try {
-    const users = await getUsers()
-
-    console.log(users)
-
-    if (users && users.length > 0) {
-      console.log(users[0].email)
-      console.log(users[0].password)
-    } else {
-      console.log("Nenhum usuário encontrado")
-    }
-
-  } catch (error) {
-    console.error("Erro ao carregar usuários:", error)
-  }
-}
-
-onMounted(() => {
-  loadUsers()
-})
-
-const handleLogin = async () => {
-  try {
-    console.log("Haircut login started...")
-
-    await authStore.login(email.value, password.value)
-
-    router.push('/')
-
-  } catch (error) {
-    console.error(error)
-    alert('Invalid email or password')
-  }
+const handleRegister = async () => {
+  await registerStore.createAccount(
+    email.value,
+    password.value
+  )
 }
 </script>
+
 <template>
-  <div class="auth-wrapper">
+  <div class="auth-wrapper">          
+    <div class="alert-component">
+      <alert-component  v-if="error"   type="error" :message="error" />
+    </div>
+
     <div class="auth-card">
 
       <div class="brand-panel">
@@ -61,7 +38,6 @@ const handleLogin = async () => {
           </p>
         </div>
 
-        <!-- decor -->
         <span class="mdi mdi-hair-dryer deco-icon pos-1"></span>
         <span class="mdi mdi-scissors-cutting deco-icon pos-2"></span>
 
@@ -69,40 +45,50 @@ const handleLogin = async () => {
         <div class="glow-circle g2"></div>
       </div>
 
-      <!-- RIGHT -->
       <div class="form-panel">
-        <h2>Welcome back</h2>
-        <p class="subtitle">Login to see the best haircuts for you</p>
+        <h2>New Here?</h2>
 
-        <form @submit.prevent="handleLogin">
+        <p class="subtitle">
+          Create an account and discover the best haircut to you
+        </p>
 
+        <form @submit.prevent="handleRegister"> 
           <div class="input-group">
             <span class="mdi mdi-email-outline"></span>
-            <input v-model="email" type="email" placeholder="Email" />
+
+            <input
+              v-model="email"
+              type="email"
+              placeholder="Email"
+            />
           </div>
 
-          <div class="input-group">
+            <div class="input-group">
             <span class="mdi mdi-lock"></span>
-            <input v-model="password" type="password" placeholder="Password" />
+
+            <input
+              v-model="password"
+              type="password"
+              placeholder="Password"
+            />
           </div>
 
-          <div class="form-options">
-            <label class="custom-checkbox">
-              <input type="checkbox" v-model="rememberMe" />
-              <span>Keep me signed in</span>
-            </label>
-
-            <a href="#">Forgot password?</a>
-          </div>
-
-          <button class="btn-primary" :disabled="loading">
-            {{ loading ? 'Signing in...' : 'Sign In' }}
+        
+          <button
+            type="submit"
+            class="btn-primary"
+            :disabled="loading"
+          >
+            {{ loading ? 'Creating account...' : 'Register' }}
           </button>
+
         </form>
 
         <p class="signup">
-          New here?
-          <router-link to="/create-account">Create an account</router-link>
+          Have an account?
+          <router-link to="/login">
+            Login here
+          </router-link>
         </p>
       </div>
 
@@ -125,6 +111,7 @@ const handleLogin = async () => {
 .auth-card {
   width: 950px;
   display: flex;
+  flex-direction: row-reverse;
   border-radius: 24px;
   overflow: hidden;
   box-shadow: 0 30px 80px rgba(0,0,0,0.6);
