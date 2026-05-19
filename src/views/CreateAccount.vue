@@ -2,96 +2,77 @@
 import { ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useRegisterStore } from '@/stores/register'
-import AlertComponent from '../components/AlertComponent.vue'
-
 
 const registerStore = useRegisterStore()
-
 const { loading, error } = storeToRefs(registerStore)
 
 const email = ref('')
 const password = ref('')
 
 const handleRegister = async () => {
-  await registerStore.createAccount(
-    email.value,
-    password.value
-  )
+  await registerStore.createAccount(email.value, password.value)
+}
+
+const dismissError = () => {
+  if (registerStore.clearError) {
+    registerStore.clearError()
+  } else {
+    error.value = null
+  }
 }
 </script>
 
 <template>
-  <div class="auth-wrapper">          
-    <div class="alert-component">
-      <alert-component  v-if="error"   type="error" :message="error" />
+  <!-- Alert flutuante estilo toast -->
+  <Transition name="alert-fade">
+    <div v-if="error" class="global-alert">
+      <div class="alert-content">
+        <span class="alert-icon mdi mdi-alert-circle"></span>
+        <span class="alert-message">{{ error }}</span>
+        <button class="alert-close" @click="dismissError">✕</button>
+      </div>
     </div>
+  </Transition>
 
+  <div class="auth-wrapper">
     <div class="auth-card">
-
       <div class="brand-panel">
         <div class="overlay"></div>
-
         <div class="brand-content">
           <h1>Haircut Studio</h1>
-          <p>
-            Your AI haircut assistant. More style, more confidence, more you.
-          </p>
+          <p>Your AI haircut assistant. More style, more confidence, more you.</p>
         </div>
-
         <span class="mdi mdi-hair-dryer deco-icon pos-1"></span>
         <span class="mdi mdi-scissors-cutting deco-icon pos-2"></span>
-
         <div class="glow-circle g1"></div>
         <div class="glow-circle g2"></div>
       </div>
 
       <div class="form-panel">
         <h2>New Here?</h2>
+        <p class="subtitle">Create an account and discover the best haircut to you</p>
 
-        <p class="subtitle">
-          Create an account and discover the best haircut to you
-        </p>
-
-        <form @submit.prevent="handleRegister"> 
+        <form @submit.prevent="handleRegister">
           <div class="input-group">
             <span class="mdi mdi-email-outline"></span>
-
-            <input
-              v-model="email"
-              type="email"
-              placeholder="Email"
-            />
+            <input v-model="email" type="email" placeholder="Email" />
           </div>
 
-            <div class="input-group">
+          <div class="input-group">
             <span class="mdi mdi-lock"></span>
-
-            <input
-              v-model="password"
-              type="password"
-              placeholder="Password"
-            />
+            <input v-model="password" type="password" placeholder="Password" />
           </div>
 
-        
-          <button
-            type="submit"
-            class="btn-primary"
-            :disabled="loading"
-          >
+          <button type="submit" class="btn-primary" :disabled="loading">
             {{ loading ? 'Creating account...' : 'Register' }}
           </button>
-
         </form>
 
         <p class="signup">
           Have an account?
-          <router-link to="/login">
-            Login here
-          </router-link>
+          <router-link to="/login">Login here</router-link>
         </p>
       </div>
-
     </div>
   </div>
 </template>
@@ -99,6 +80,85 @@ const handleRegister = async () => {
 <style scoped>
 @import url("https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css");
 
+/* ===== ALERT FLUTUANTE ESTILO TOAST ===== */
+.global-alert {
+  position: fixed;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2000;
+  max-width: 90%;
+  width: auto;
+  min-width: 280px;
+  background: #1e1a2f;
+  backdrop-filter: blur(12px);
+  border-left: 5px solid #ff4d4d;
+  border-radius: 16px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 77, 77, 0.2);
+  pointer-events: auto;
+}
+
+.alert-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  color: #ffeaea;
+  font-weight: 500;
+  background: rgba(30, 26, 47, 0.95);
+  border-radius: 16px;
+}
+
+.alert-icon {
+  font-size: 24px;
+  color: #ff4d4d;
+}
+
+.alert-message {
+  flex: 1;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.alert-close {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 40px;
+  transition: all 0.2s;
+}
+
+.alert-close:hover {
+  background: rgba(255, 77, 77, 0.2);
+  color: #ff4d4d;
+}
+
+/* Animação de entrada/saída */
+.alert-fade-enter-active,
+.alert-fade-leave-active {
+  transition: all 0.3s ease;
+}
+
+.alert-fade-enter-from {
+  opacity: 0;
+  transform: translateX(-50%) translateY(-30px);
+}
+
+.alert-fade-leave-to {
+  opacity: 0;
+  transform: translateX(-50%) translateY(-20px);
+}
+
+/* ===== ESTILOS ORIGINAIS ===== */
 .auth-wrapper {
   min-height: 100vh;
   display: flex;
@@ -150,7 +210,6 @@ const handleRegister = async () => {
   line-height: 1.6;
 }
 
-
 .glow-circle {
   position: absolute;
   border-radius: 50%;
@@ -190,7 +249,6 @@ const handleRegister = async () => {
   left: 20px;
 }
 
-/* RIGHT PANEL */
 .form-panel {
   flex: 1;
   background: #0e0f14;
@@ -235,20 +293,6 @@ const handleRegister = async () => {
 .input-group:focus-within {
   border-color: #1976d2;
   box-shadow: 0 0 0 3px rgba(25,118,210,0.2);
-}
-
-/* options */
-.form-options {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.85rem;
-  margin: 10px 0 25px;
-  opacity: 0.8;
-}
-
-.form-options a {
-  color: #4aa3ff;
-  text-decoration: none;
 }
 
 .btn-primary {

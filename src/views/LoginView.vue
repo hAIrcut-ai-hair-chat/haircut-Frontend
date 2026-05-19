@@ -1,10 +1,8 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { getUsers } from '@/stores/getUsers'
 
-const router = useRouter()
 const authStore = useAuthStore()
 
 const email = ref('')
@@ -21,11 +19,14 @@ const loadUsers = async () => {
       console.log(users[0].email)
       console.log(users[0].password)
     } else {
-      console.log("Nenhum usuário encontrado")
+      console.log('Nenhum usuário encontrado')
     }
 
   } catch (error) {
-    console.error("Erro ao carregar usuários:", error)
+    console.error(
+      'Erro ao carregar usuários:',
+      error
+    )
   }
 }
 
@@ -35,18 +36,27 @@ onMounted(() => {
 
 const handleLogin = async () => {
   try {
-    console.log("Haircut login started...")
+    console.log(
+      'Haircut login started...'
+    )
 
-    await authStore.login(email.value, password.value)
-
-    router.push('/')
+    await authStore.login(
+      email.value,
+      password.value,
+      rememberMe.value
+    )
 
   } catch (error) {
     console.error(error)
-    alert('Invalid email or password')
+
+    alert(
+      'Invalid email or password'
+    )
   }
 }
 </script>
+
+
 <template>
   <div class="auth-wrapper">
     <div class="auth-card">
