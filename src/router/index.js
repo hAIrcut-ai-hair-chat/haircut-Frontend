@@ -7,6 +7,9 @@ import SavedImagesView from '../views/SavedImagesView.vue'
 import SettingsView from "../views/SettingsView.vue";
 import UsuarioView from "../views/UsuarioView.vue";
 import CreateAccount from "../views/CreateAccount.vue";
+import ForgetPasswordView from "../views/ForgetPasswordView.vue";
+import NewPasswordView from "../views/NewPasswordView.vue";
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -50,6 +53,16 @@ const router = createRouter({
       path: "/usuario",
       name: "usuario",
       component: UsuarioView
+    },
+    {
+      path: "/forget_password",
+      name: "forget_password",
+      component: ForgetPasswordView
+    },
+    {
+      path: "/new_password",
+      name: "new_password",
+      component: NewPasswordView,
     }
   ],
 });
