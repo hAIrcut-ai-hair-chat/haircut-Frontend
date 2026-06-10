@@ -38,6 +38,7 @@ export const useForgetPasswordStore = defineStore("forget", () => {
         loading.value = true;
         error.value = null;
         success.value = null;
+        alert(email, code, newPassword)
 
         try {
             const response = await api.patch("/password/code/", {
