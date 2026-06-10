@@ -36,33 +36,18 @@ const dismissError = () => {
     <div v-if="error" class="global-alert">
       <div class="alert-content">
         <span class="alert-icon mdi mdi-alert-circle"></span>
-
-        <span class="alert-message">
-          {{ error }}
-        </span>
-
-        <button
-          class="alert-close"
-          @click="dismissError"
-        >
-          ✕
-        </button>
+        <span class="alert-message">{{ error }}</span>
+        <button class="alert-close" @click="dismissError">✕</button>
       </div>
     </div>
   </Transition>
 
   <!-- ALERT SUCCESS -->
   <Transition name="alert-fade">
-    <div
-      v-if="success"
-      class="global-alert success-alert"
-    >
+    <div v-if="success" class="global-alert success-alert">
       <div class="alert-content">
         <span class="alert-icon mdi mdi-check-circle"></span>
-
-        <span class="alert-message">
-          {{ success }}
-        </span>
+        <span class="alert-message">{{ success }}</span>
       </div>
     </div>
   </Transition>
@@ -72,18 +57,12 @@ const dismissError = () => {
       <!-- BRAND -->
       <div class="brand-panel">
         <div class="overlay"></div>
-
         <div class="brand-content">
           <h1>Haircut Studio</h1>
-
-          <p>
-            Reset your password securely using your verification code.
-          </p>
+          <p>Reset your password securely using your verification code.</p>
         </div>
-
         <span class="mdi mdi-lock-reset deco-icon pos-1"></span>
         <span class="mdi mdi-shield-key-outline deco-icon pos-2"></span>
-
         <div class="glow-circle g1"></div>
         <div class="glow-circle g2"></div>
       </div>
@@ -91,77 +70,38 @@ const dismissError = () => {
       <!-- FORM -->
       <div class="form-panel">
         <h2>Reset Password</h2>
-
-        <p class="subtitle">
-          Enter your email, verification code and new password.
-        </p>
+        <p class="subtitle">Enter your email, verification code and new password.</p>
 
         <form @submit.prevent="handleResetPassword">
           <!-- EMAIL -->
           <div class="input-group">
             <span class="mdi mdi-email-outline"></span>
-
-            <input
-              v-model="email"
-              type="email"
-              placeholder="Email"
-              required
-            />
+            <input v-model="email" type="email" placeholder="Email" required class="input-field" />
           </div>
 
-          <!-- CODE -->
+          <!-- VERIFICATION CODE -->
           <div class="input-group">
             <span class="mdi mdi-shield-key-outline"></span>
-
-            <input
-              v-model="code"
-              type="text"
-              placeholder="Verification code"
-              required
-            />
+            <input v-model="code" type="text" placeholder="Verification code" required class="input-field" />
           </div>
 
           <!-- PASSWORD -->
           <div class="input-group">
             <span class="mdi mdi-lock-outline"></span>
-
-            <input
-              v-model="password"
-              :type="showPassword ? 'text' : 'password'"
-              placeholder="New password"
-              required
-            />
-
-            <button
-              type="button"
-              class="toggle-password"
-              @click="showPassword = !showPassword"
-            >
-              <span
-                :class="
-                  showPassword
-                    ? 'mdi mdi-eye-off-outline'
-                    : 'mdi mdi-eye-outline'
-                "
-              ></span>
+            <input v-model="password" :type="showPassword ? 'text' : 'password'" placeholder="New password" required class="input-field" />
+            <button type="button" class="toggle-password" @click="showPassword = !showPassword">
+              <span :class="showPassword ? 'mdi mdi-eye-off-outline' : 'mdi mdi-eye-outline'"></span>
             </button>
           </div>
 
-          <button
-            type="submit"
-            class="btn-primary"
-            :disabled="loading"
-          >
+          <button type="submit" class="btn-primary" :disabled="loading">
             {{ loading ? 'Updating password...' : 'Reset password' }}
           </button>
         </form>
 
         <p class="signup">
           Remember your password?
-
-          <router-link to="/login">
-            Login here
-          </router-link>
+          <router-link to="/login">Login here</router-link>
         </p>
       </div>
     </div>
@@ -182,9 +122,7 @@ const dismissError = () => {
   background: #1e1a2f;
   border-left: 5px solid #ff4d4d;
   border-radius: 16px;
-  box-shadow:
-    0 12px 28px rgba(0, 0, 0, 0.5),
-    0 0 0 1px rgba(255, 77, 77, 0.2);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 77, 77, 0.2);
 }
 
 .success-alert {
@@ -218,7 +156,7 @@ const dismissError = () => {
 .alert-close {
   background: none;
   border: none;
-  color: rgba(255,255,255,0.6);
+  color: rgba(255, 255, 255, 0.6);
   font-size: 20px;
   cursor: pointer;
 }
@@ -239,8 +177,7 @@ const dismissError = () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background:
-    radial-gradient(circle at top, #0b1220, #05070d);
+  background: radial-gradient(circle at top, #0b1220, #05070d);
   padding: 20px;
 }
 
@@ -250,7 +187,7 @@ const dismissError = () => {
   flex-direction: row-reverse;
   border-radius: 24px;
   overflow: hidden;
-  box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
 }
 
 .brand-panel {
@@ -258,18 +195,14 @@ const dismissError = () => {
   position: relative;
   padding: 60px;
   color: white;
-  background:
-    linear-gradient(135deg, #0d47a1, #020b1f);
+  background: linear-gradient(135deg, #0d47a1, #020b1f);
   overflow: hidden;
 }
 
 .overlay {
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(circle at top,
-    rgba(255,255,255,0.08),
-    transparent 60%);
+  background: radial-gradient(circle at top, rgba(255, 255, 255, 0.08), transparent 60%);
 }
 
 .brand-content {
@@ -350,44 +283,53 @@ const dismissError = () => {
 .input-group {
   display: flex;
   align-items: center;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 14px;
-  padding: 12px 16px;
+  padding: 0 16px;
   margin-bottom: 18px;
   transition: 0.3s;
+  height: 54px;
 }
 
-.input-group span {
-  margin-right: 10px;
+.input-group span:first-child {
+  margin-right: 12px;
   opacity: 0.6;
   font-size: 20px;
 }
 
-.input-group input {
+.input-field {
   background: transparent;
   border: none;
   outline: none;
   color: white;
   width: 100%;
   font-size: 0.95rem;
+  height: 100%;
+  line-height: normal;
 }
 
-.input-group input::placeholder {
-  color: rgba(255,255,255,0.4);
+.input-field::placeholder {
+  color: rgba(255, 255, 255, 0.4);
 }
 
 .input-group:focus-within {
   border-color: #1976d2;
-  box-shadow: 0 0 0 3px rgba(25,118,210,0.2);
+  box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.2);
 }
 
 .toggle-password {
   background: transparent;
   border: none;
-  color: rgba(255,255,255,0.5);
+  color: rgba(255, 255, 255, 0.5);
   cursor: pointer;
   font-size: 20px;
+  margin-right: 10px;  /* <-- DISTÂNCIA DE 10px DA BORDA DIREITA */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 0;
 }
 
 .btn-primary {
@@ -395,12 +337,12 @@ const dismissError = () => {
   padding: 14px;
   border-radius: 14px;
   border: none;
-  background:
-    linear-gradient(90deg, #1976d2, #00bcd4);
+  background: linear-gradient(90deg, #1976d2, #00bcd4);
   color: white;
   font-weight: 700;
   cursor: pointer;
   transition: 0.3s;
+  margin-top: 10px;
 }
 
 .btn-primary:hover {
@@ -427,6 +369,14 @@ const dismissError = () => {
 
 .signup a:hover {
   text-decoration: underline;
+}
+.input-group {
+  padding: 0 0 0 16px;
+}
+
+.toggle-password {
+  margin-right: 0;
+  padding-right: 10px;  
 }
 
 @media (max-width: 800px) {
