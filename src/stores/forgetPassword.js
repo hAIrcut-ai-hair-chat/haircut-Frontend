@@ -1,6 +1,9 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import api from "@/plugins/axios";
+import { useRouter } from "vue-router";
+
+const router = useRouter()
 
 export const useForgetPasswordStore = defineStore("forget", () => {
     const loading = ref(false);
@@ -18,7 +21,9 @@ export const useForgetPasswordStore = defineStore("forget", () => {
                 email: email
             });
 
-            success.value = response.data.message;
+            success.value = response.data.message;            
+            
+            router.push('/new_password')
 
             return response.data;
 
