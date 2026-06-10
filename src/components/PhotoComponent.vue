@@ -205,6 +205,7 @@ function removeImage() {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   transition: all 0.25s ease, padding-left 0.25s ease;
   position: relative;
+  margin-left: 20px;
 }
 
 .photo-input:focus {
@@ -225,7 +226,6 @@ function removeImage() {
   transform: translateY(-50%);
   display: flex;
   gap: 6px;
-  flex-wrap: wrap;
   justify-content: flex-end;
 }
 
@@ -277,6 +277,7 @@ function removeImage() {
   overflow: hidden;
   z-index: 3;
   box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  margin-left: 35px;
 }
 
 .image-inside img {
