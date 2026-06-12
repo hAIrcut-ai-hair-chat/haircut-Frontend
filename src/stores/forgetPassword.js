@@ -5,7 +5,6 @@ import { useRouter } from "vue-router";
 
 export const useForgetPasswordStore = defineStore("forget", () => {
     const router = useRouter();
-
     const loading = ref(false);
     const error = ref(null);
     const success = ref(null);
