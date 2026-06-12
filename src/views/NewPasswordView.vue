@@ -15,11 +15,11 @@ const showPassword = ref(false)
 
 const handleResetPassword = async () => {
   try {
-    await resetPasswordStore.resetPassword({
-      email: email.value,
-      code: code.value,
-      password: password.value
-    })
+    await resetPasswordStore.resetPassword(
+      email.value,
+      code.value,
+      password.value
+    )
   } catch (err) {
     console.log(err)
   }
@@ -31,7 +31,6 @@ const dismissError = () => {
 </script>
 
 <template>
-  <!-- ALERT ERROR -->
   <Transition name="alert-fade">
     <div v-if="error" class="global-alert">
       <div class="alert-content">
@@ -42,7 +41,6 @@ const dismissError = () => {
     </div>
   </Transition>
 
-  <!-- ALERT SUCCESS -->
   <Transition name="alert-fade">
     <div v-if="success" class="global-alert success-alert">
       <div class="alert-content">
@@ -67,7 +65,6 @@ const dismissError = () => {
         <div class="glow-circle g2"></div>
       </div>
 
-      <!-- FORM -->
       <div class="form-panel">
         <h2>Reset Password</h2>
         <p class="subtitle">Enter your email, verification code and new password.</p>
@@ -79,13 +76,11 @@ const dismissError = () => {
             <input v-model="email" type="email" placeholder="Email" required class="input-field" />
           </div>
 
-          <!-- VERIFICATION CODE -->
           <div class="input-group">
             <span class="mdi mdi-shield-key-outline"></span>
             <input v-model="code" type="text" placeholder="Verification code" required class="input-field" />
           </div>
 
-          <!-- PASSWORD -->
           <div class="input-group">
             <span class="mdi mdi-lock-outline"></span>
             <input v-model="password" :type="showPassword ? 'text' : 'password'" placeholder="New password" required class="input-field" />
