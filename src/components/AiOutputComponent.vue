@@ -72,19 +72,34 @@ const formattedTime = computed(() => {
   background: linear-gradient(135deg, #3182ce 0%, #2c5282 100%);
   color: #ffffff;
 }
+.output {
+  width: fit-content;
+  max-width: 700px; 
+  min-width: 160px;
+  border-radius: 24px;
+  padding: 1.1rem 1.35rem 2rem 1.35rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-shadow: 0 8px 10px rgba(0, 0, 0, 0.1);
+}
+
 .output-content {
   white-space: pre-wrap;
   line-height: 1.7;
   font-size: 1rem;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .timestamp {
+  position: absolute;
+  right: 15px;
+  bottom: 8px;
+  top: 48px;
   font-size: 0.75rem;
   opacity: 0.7;
-  margin-top: 0.5rem;
-  text-align: right;
-  top: 10px;
-  left: 10px
 }
+
 
 </style>
