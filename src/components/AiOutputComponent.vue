@@ -96,8 +96,7 @@ const formattedTime = computed(() => {
   position: absolute;
   right: 15px;
   bottom: 8px;
-  top: 48px;
-  font-size: 0.75rem;
+   font-size: 0.75rem;
   opacity: 0.7;
 }
 
