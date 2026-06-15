@@ -71,16 +71,14 @@ const handleLogin = async () => {
           </p>
         </div>
 
-        <!-- decor -->
-        <span class="mdi mdi-hair-dryer deco-icon pos-1"></span>
+         <span class="mdi mdi-hair-dryer deco-icon pos-1"></span>
         <span class="mdi mdi-scissors-cutting deco-icon pos-2"></span>
 
         <div class="glow-circle g1"></div>
         <div class="glow-circle g2"></div>
       </div>
 
-      <!-- RIGHT -->
-      <div class="form-panel">
+       <div class="form-panel">
         <h2>Welcome back</h2>
         <p class="subtitle">Login to see the best haircuts for you</p>
 
