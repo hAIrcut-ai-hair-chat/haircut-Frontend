@@ -43,7 +43,6 @@ const dismissError = () => {
     </div>
   </Transition>
 
-  <!-- ALERT SUCCESS -->
   <Transition name="alert-fade">
     <div
       v-if="success"
@@ -374,7 +373,6 @@ const dismissError = () => {
   transform: none;
 }
 
-/* ===== FOOTER ===== */
 .signup {
   margin-top: 25px;
   text-align: center;
